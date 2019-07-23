@@ -422,6 +422,11 @@
               <FileType>1</FileType>
               <FilePath>../Src/stm32l1xx_hal_msp.c</FilePath>
             </File>
+            <File>
+              <FileName>LCD_Tools.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\LCD_Tools.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -100,12 +100,25 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
 
   /* USER CODE BEGIN SPI1_MspDeInit 1 */
 
+
   /* USER CODE END SPI1_MspDeInit 1 */
   }
 } 
 
 /* USER CODE BEGIN 1 */
+/*  */
+void SPI_Send_Data(uint8_t *Data)
+{
+	HAL_GPIO_WritePin(SPI1_D_C_GPIO_Port, SPI1_D_C_Pin, GPIO_PIN_SET);
+	HAL_SPI_Transmit(&hspi1, Data, 1, 1);
+	HAL_GPIO_WritePin(SPI1_D_C_GPIO_Port, SPI1_D_C_Pin, GPIO_PIN_RESET);
+}
 
+void SPI_Send_Command(uint8_t *Data)
+{
+	HAL_GPIO_WritePin(SPI1_D_C_GPIO_Port, SPI1_D_C_Pin, GPIO_PIN_RESET);
+	HAL_SPI_Transmit(&hspi1, Data, 1, 1);
+}
 /* USER CODE END 1 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

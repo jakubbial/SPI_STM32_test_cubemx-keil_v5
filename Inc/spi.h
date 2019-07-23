@@ -39,7 +39,8 @@ extern SPI_HandleTypeDef hspi1;
 void MX_SPI1_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+void SPI_Send_Data(uint8_t *Data);
+void SPI_Send_Command(uint8_t *Data);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
