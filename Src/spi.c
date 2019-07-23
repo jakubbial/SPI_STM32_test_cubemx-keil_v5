@@ -109,14 +109,16 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
 /*  */
 void SPI_Send_Data(uint8_t *Data)
 {
-	HAL_GPIO_WritePin(SPI1_D_C_GPIO_Port, SPI1_D_C_Pin, GPIO_PIN_SET);
+	D_C_Pin(SET);
+	//HAL_GPIO_WritePin(SPI1_D_C_GPIO_Port, SPI1_D_C_Pin, GPIO_PIN_SET);
 	HAL_SPI_Transmit(&hspi1, Data, 1, 1);
-	HAL_GPIO_WritePin(SPI1_D_C_GPIO_Port, SPI1_D_C_Pin, GPIO_PIN_RESET);
+	D_C_Pin(RESET);
+	//HAL_GPIO_WritePin(SPI1_D_C_GPIO_Port, SPI1_D_C_Pin, GPIO_PIN_RESET);
 }
 
 void SPI_Send_Command(uint8_t *Data)
 {
-	HAL_GPIO_WritePin(SPI1_D_C_GPIO_Port, SPI1_D_C_Pin, GPIO_PIN_RESET);
+	D_C_Pin(RESET);
 	HAL_SPI_Transmit(&hspi1, Data, 1, 1);
 }
 /* USER CODE END 1 */

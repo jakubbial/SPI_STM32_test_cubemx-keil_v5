@@ -64,7 +64,17 @@ void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 2 */
-
+void D_C_Pin(uint8_t State)
+{
+	if(State == 0)
+	{
+		HAL_GPIO_WritePin(SPI1_D_C_GPIO_Port, SPI1_D_C_Pin, GPIO_PIN_SET);
+	}
+	else if(State == 1)
+	{
+		HAL_GPIO_WritePin(SPI1_D_C_GPIO_Port, SPI1_D_C_Pin, GPIO_PIN_RESET);
+	}
+}
 /* USER CODE END 2 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

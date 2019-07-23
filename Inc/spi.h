@@ -25,9 +25,11 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-
+#define SET 1
+#define RESET 0
 /* USER CODE END Includes */
 
 extern SPI_HandleTypeDef hspi1;

@@ -28,7 +28,7 @@
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-#define SET 1
+
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN Private defines */
@@ -38,7 +38,7 @@
 void MX_GPIO_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-void Data_Command()
+void D_C_Pin(uint8_t State);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
