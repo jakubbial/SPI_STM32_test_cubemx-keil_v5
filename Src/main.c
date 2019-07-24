@@ -20,10 +20,10 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "gpio.h"
 #include "spi.h"
 #include "usart.h"
-#include "gpio.h"
-#include "LCD_Tools.h"
+
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -91,8 +91,8 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_SPI1_Init();
   MX_USART1_UART_Init();
+  MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 	uint8_t Data_to_Tr = 0xAA;
 	
@@ -103,8 +103,12 @@ int main(void)
   while (1)
   {
 		
-		HAL_SPI_Transmit(&hspi1, &Data_to_Tr, 1, 1);
-		HAL_Delay(100);
+		//HAL_SPI_Transmit(&hspi2, &Data_to_Tr, 1, 1);
+		//HAL_Delay(1);
+		SPI_Send_Data(&Data_to_Tr);
+		//HAL_Delay(1);
+		SPI_Send_Command(&Data_to_Tr);
+		//HAL_Delay(1);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
