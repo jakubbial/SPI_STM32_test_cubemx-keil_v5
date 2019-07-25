@@ -23,6 +23,8 @@
 #include "gpio.h"
 #include "spi.h"
 #include "usart.h"
+#include "LCD_Tools.h"
+
 
 
 /* Private includes ----------------------------------------------------------*/
@@ -97,7 +99,8 @@ int main(void)
 	uint8_t Data_to_Tr = 0xAA;
 	
   /* USER CODE END 2 */
-
+	LCD_Init();
+	SPI_Send_Data(&Data_to_Tr);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
@@ -105,9 +108,9 @@ int main(void)
 		
 		//HAL_SPI_Transmit(&hspi2, &Data_to_Tr, 1, 1);
 		//HAL_Delay(1);
-		SPI_Send_Data(&Data_to_Tr);
+		//SPI_Send_Data(&Data_to_Tr);
 		//HAL_Delay(1);
-		SPI_Send_Command(&Data_to_Tr);
+		//SPI_Send_Command(&Data_to_Tr);
 		//HAL_Delay(1);
     /* USER CODE END WHILE */
 
