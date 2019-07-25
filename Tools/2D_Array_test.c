@@ -1,20 +1,18 @@
-#include "LCD_Tools.h"
-#include "spi.h"
+#include <stdio.h>
 
 #define DATA 0
 #define COMMAND 1
 
-/*
-	void SPI_Send_Data(uint8_t *Data);
-	void SPI_Send_Command(uint8_t *Data);
-*/
+void init_func();
+
+main(){
+	init_func();
+}
 
 
-void LCD_Init()
-{
+void init_func(){
 	
-	// data/commands to send
-	uint8_t LcdInitVal_Array[74][2] = {
+	int LcdInitVal_Array[74][2] = {
 	{COMMAND ,0x11},
 	{COMMAND ,0xB1},
 	{DATA ,0x05},
@@ -90,15 +88,20 @@ void LCD_Init()
 	{DATA ,0x05},
 	{COMMAND ,0x29}
 	};
+
+	//printf("%d\n", &LcdInitVal_Array[0][0]);
 	
 	//send initialize procedure
 	int i;
 	for(i=0; i<74; i++) {
 			if(LcdInitVal_Array[i][0] == 1){
-				SPI_Send_Command(&LcdInitVal_Array[i][1]);
+				printf("%s\n", "Command");
+				printf("%X\n", LcdInitVal_Array[i][1]);
 			}
 			else if (LcdInitVal_Array[i][0] == 0){
-				SPI_Send_Data(&LcdInitVal_Array[i][1]);
+				printf("%s\n", "Data");
+				printf("%X\n", LcdInitVal_Array[i][1]); // %X\n print in hex
 			}
 		}
+	
 }
