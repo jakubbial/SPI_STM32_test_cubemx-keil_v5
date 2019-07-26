@@ -68,11 +68,11 @@ void MX_GPIO_Init(void)
 
 void DC_Pin(uint8_t State)
 {
-	if(State == 0)
+	if(State == 1)
 	{
 		HAL_GPIO_WritePin(SPI2_D_C_GPIO_Port, SPI2_D_C_Pin, GPIO_PIN_SET);
 	}
-	else if(State == 1)
+	else if(State == 0)
 	{
 		HAL_GPIO_WritePin(SPI2_D_C_GPIO_Port, SPI2_D_C_Pin, GPIO_PIN_RESET);
 	}
@@ -80,11 +80,11 @@ void DC_Pin(uint8_t State)
 
 void CS_Pin(uint8_t State)
 {
-	if(State == 0)
+	if(State == 1)
 	{
 		HAL_GPIO_WritePin(SPI2_CS_GPIO_Port, SPI2_CS_Pin, GPIO_PIN_SET);
 	}
-	else if(State == 1)
+	else if(State == 0)
 	{
 		HAL_GPIO_WritePin(SPI2_CS_GPIO_Port, SPI2_CS_Pin, GPIO_PIN_RESET);
 	}
@@ -92,11 +92,11 @@ void CS_Pin(uint8_t State)
 
 void RESX_Pin(uint8_t State)
 {
-	if(State == 0)
+	if(State == 1)
 	{
 		HAL_GPIO_WritePin(SPI2_RESX_GPIO_Port, SPI2_RESX_Pin, GPIO_PIN_SET);
 	}
-	else if(State == 1)
+	else if(State == 0)
 	{
 		HAL_GPIO_WritePin(SPI2_RESX_GPIO_Port, SPI2_RESX_Pin, GPIO_PIN_RESET);
 	}

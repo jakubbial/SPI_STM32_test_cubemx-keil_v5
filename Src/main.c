@@ -95,6 +95,7 @@ int main(void)
   
 	/* USER CODE BEGIN 2 */
 	LCD_Init_procedure();
+	HAL_Delay(10);
 	LCD_Init();
   /* USER CODE END 2 */
 
