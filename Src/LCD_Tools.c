@@ -10,7 +10,7 @@
 */
 
 
-void LCD_Init()
+void LCD_Init(void)
 {
 	// data/commands to send
 	uint8_t LcdInitVal_Array[74][2] = {
