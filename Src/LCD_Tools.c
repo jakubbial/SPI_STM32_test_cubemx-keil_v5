@@ -5,17 +5,28 @@
 #define DATA 0
 #define COMMAND 1
 
-/*
-	void SPI_Send_Data(uint8_t *Data);
-	void SPI_Send_Command(uint8_t *Data);
-*/
 
+
+/* Procedure to initialize LCD display */
 void LCD_Init_procedure(void)
 {
+	DC_Pin(RES);
+	CS_Pin(RES);
+	RESX_Pin(RES);
+	HAL_Delay(5);
 	
+	RESX_Pin(SET);
+	HAL_Delay(5);
+	RESX_Pin(RES);
+	HAL_Delay(5);
+	RESX_Pin(SET);
+	CS_Pin(SET);
+	HAL_Delay(5);
+	CS_Pin(RES);
 }
 
 
+/* Setup and configure displaying method*/
 void LCD_Init(void)
 {
 	// data/commands to send
@@ -96,7 +107,7 @@ void LCD_Init(void)
 	{COMMAND ,0x29}
 	};
 	
-	//send initialize procedure
+	//send data / commands each one by one
 	int i;
 	for(i=0; i<74; i++) {
 			if(LcdInitVal_Array[i][0] == 1){

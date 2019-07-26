@@ -38,7 +38,11 @@
 void MX_GPIO_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-void D_C_Pin(uint8_t State);
+
+void DC_Pin(uint8_t State);
+void CS_Pin(uint8_t State);
+void RESX_Pin(uint8_t State);
+
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

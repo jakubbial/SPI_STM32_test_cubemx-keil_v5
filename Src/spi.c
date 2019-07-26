@@ -19,10 +19,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "spi.h"
-#include "gpio.h"
 
 /* USER CODE BEGIN 0 */
-
+#include "gpio.h"
 /* USER CODE END 0 */
 
 SPI_HandleTypeDef hspi2;
@@ -37,7 +36,7 @@ void MX_SPI2_Init(void)
   hspi2.Init.DataSize = SPI_DATASIZE_16BIT;
   hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
-  hspi2.Init.NSS = SPI_NSS_HARD_OUTPUT;
+  hspi2.Init.NSS = SPI_NSS_SOFT;
   hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
   hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
@@ -64,11 +63,10 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
   
     __HAL_RCC_GPIOB_CLK_ENABLE();
     /**SPI2 GPIO Configuration    
-    PB12     ------> SPI2_NSS
     PB13     ------> SPI2_SCK
     PB15     ------> SPI2_MOSI 
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_15;
+    GPIO_InitStruct.Pin = GPIO_PIN_13|GPIO_PIN_15;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -93,11 +91,10 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
     __HAL_RCC_SPI2_CLK_DISABLE();
   
     /**SPI2 GPIO Configuration    
-    PB12     ------> SPI2_NSS
     PB13     ------> SPI2_SCK
     PB15     ------> SPI2_MOSI 
     */
-    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_15);
+    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_13|GPIO_PIN_15);
 
   /* USER CODE BEGIN SPI2_MspDeInit 1 */
 
@@ -109,16 +106,14 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
 /*  */
 void SPI_Send_Data(uint8_t *Data)
 {
-	D_C_Pin(SET);
-	//HAL_GPIO_WritePin(SPI1_D_C_GPIO_Port, SPI1_D_C_Pin, GPIO_PIN_SET);
+	DC_Pin(SET);
 	HAL_SPI_Transmit(&hspi2, Data, 1, 1);
-	D_C_Pin(RESET);
-	//HAL_GPIO_WritePin(SPI1_D_C_GPIO_Port, SPI1_D_C_Pin, GPIO_PIN_RESET);
+	DC_Pin(RES);
 }
 
 void SPI_Send_Command(uint8_t *Data)
 {
-	D_C_Pin(RESET);
+	DC_Pin(RES);
 	HAL_SPI_Transmit(&hspi2, Data, 1, 1);
 }
 /* USER CODE END 1 */

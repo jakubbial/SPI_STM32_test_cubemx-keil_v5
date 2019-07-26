@@ -28,7 +28,7 @@
 
 /* USER CODE BEGIN Includes */
 #define SET 1
-#define RESET 0
+#define RES 0
 /* USER CODE END Includes */
 
 extern SPI_HandleTypeDef hspi2;
