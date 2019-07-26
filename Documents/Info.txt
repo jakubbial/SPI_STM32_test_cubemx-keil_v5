@@ -5,11 +5,23 @@ LED3 (blue)	 	- PB6
 B1 user button 	- PA0
 
 
+############ LCD initialization proc ######
+
+LCD_REST=1;
+delayms(5);	
+LCD_REST=0;
+delayms(5);
+LCD_REST=1;
+LCD_CS=1; 
+delayms(5);
+LCD_CS =0;
 
 
-############ LCD initialization ######
 
-{0x11, 
+############ LCD initialization commands ######
+
+{
+0x11, 
 0xB1, 
 0x05, 
 0x3C, 
@@ -82,7 +94,8 @@ B1 user button 	- PA0
 0x13, 
 0x3A, 
 0x05, 
-0x29}
+0x29
+}
 
 
 

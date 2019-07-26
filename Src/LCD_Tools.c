@@ -1,5 +1,6 @@
 #include "LCD_Tools.h"
 #include "spi.h"
+#include "gpio.h"
 
 #define DATA 0
 #define COMMAND 1
@@ -8,6 +9,11 @@
 	void SPI_Send_Data(uint8_t *Data);
 	void SPI_Send_Command(uint8_t *Data);
 */
+
+void LCD_Init_procedure(void)
+{
+	
+}
 
 
 void LCD_Init(void)

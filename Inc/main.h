@@ -64,6 +64,8 @@ void Error_Handler(void);
 #define Output_2_GPIO_Port GPIOC
 #define SPI2_D_C_Pin GPIO_PIN_14
 #define SPI2_D_C_GPIO_Port GPIOB
+#define SPI2_RESX_Pin GPIO_PIN_6
+#define SPI2_RESX_GPIO_Port GPIOC
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
