@@ -94,9 +94,10 @@ int main(void)
   MX_SPI2_Init();
   
 	/* USER CODE BEGIN 2 */
-	LCD_Init_procedure();
-	HAL_Delay(10);
 	LCD_Init();
+	Fill_display(1, 0xFF);
+	
+	//MX_SPI2_Init_16BIT(); //no 16 bit anymore
   /* USER CODE END 2 */
 
   /* Infinite loop */

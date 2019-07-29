@@ -6,6 +6,8 @@
 #define COMMAND 1
 
 
+//enum Display_Type {1_8_Small=1, 2_8_Big=2};
+
 
 /* Procedure to initialize LCD display */
 void LCD_Init_procedure(void)
@@ -29,6 +31,10 @@ void LCD_Init_procedure(void)
 /* Setup and configure displaying method*/
 void LCD_Init(void)
 {
+	// start procesure 
+	LCD_Init_procedure();
+	HAL_Delay(10);
+	
 	// data/commands to send
 	uint8_t LcdInitVal_Array[74][2] = {
 	{COMMAND ,0x11},
@@ -117,4 +123,25 @@ void LCD_Init(void)
 				SPI_Send_Data(&LcdInitVal_Array[i][1]);
 			}
 		}
+}
+
+
+
+void Fill_display(uint8_t Display_Type, uint8_t Color)
+{
+	uint32_t i;
+	uint32_t Number_of_pixels = 0;
+	
+	/*	1.8 - 128x160 (20480 piksels) */
+	if(Display_Type == 1){
+		Number_of_pixels = 20480;
+	}
+	/* 2.8 - 240x320 (76800 piksels) */
+	else if(Display_Type == 2){
+		Number_of_pixels = 76800;
+	}
+		
+	for(i=0; i<Number_of_pixels; i++){
+		SPI_Send_Data(&Color);
+	}
 }
