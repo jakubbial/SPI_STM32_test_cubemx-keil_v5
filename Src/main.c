@@ -95,15 +95,14 @@ int main(void)
   
 	/* USER CODE BEGIN 2 */
 	LCD_Init();
-	
 	MX_SPI2_Init_16BIT();
 	
-	uint16_t Col = 0xFFFF;
-	uint8_t* Col_p = (uint8_t*)&Col;
+	//uint16_t data_tab[4] = {0xAAAA, 0xFFFF, 0x0000, 0xFFFF};
+	//SPI_Send_Data_16bit(&data_tab[0], 1);
 	
-	Fill_display(1, Col_p);
+	uint16_t Color = 0xAAAA;
+	Fill_display(1, Color);
 	
-	//MX_SPI2_Init_16BIT(); //no 16 bit anymore
   /* USER CODE END 2 */
 
   /* Infinite loop */

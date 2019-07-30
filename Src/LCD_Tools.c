@@ -117,10 +117,10 @@ void LCD_Init(void)
 	int i;
 	for(i=0; i<74; i++) {
 			if(LcdInitVal_Array[i][0] == 1){
-				SPI_Send_Command(&LcdInitVal_Array[i][1]);
+				SPI_Send_Command_8bit(&LcdInitVal_Array[i][1]);
 			}
 			else if (LcdInitVal_Array[i][0] == 0){
-				SPI_Send_Data(&LcdInitVal_Array[i][1]);
+				SPI_Send_Data_8bit(&LcdInitVal_Array[i][1]);
 			}
 		}
 }
@@ -131,7 +131,7 @@ Color mode is set as 16 bit/pixel. Data have to be 16-bit.
 Display types:	1 - 1.8, 128x160
 								2 - 2.8, 240x320
 */
-void Fill_display(uint8_t Display_Type, uint8_t *Color)
+void Fill_display(uint8_t Display_Type, uint16_t Color)
 {
 	uint32_t i;
 	uint32_t Number_of_pixels = 0;
@@ -145,8 +145,15 @@ void Fill_display(uint8_t Display_Type, uint8_t *Color)
 		Number_of_pixels = 76800;
 	}
 	
+	uint16_t color_table[Number_of_pixels];
 	
 	for(i=0; i<Number_of_pixels; i++){
-		SPI_Send_Data(Color);
+		color_table[i] = Color;
+		SPI_Send_Data_16bit(&Color, 1);
 	}
+	
+	//uint16_t an = 0xFFFF;
+	//SPI_Send_Data_16bit(&an, 1);
+	
+	SPI_Send_Data_16bit(color_table, Number_of_pixels);
 }

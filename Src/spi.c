@@ -125,23 +125,22 @@ void MX_SPI2_Init_16BIT(void)
 }
 
 
-void SPI_Send_Data(uint8_t *Data)
+void SPI_Send_Data_8bit(uint8_t *Data)
 {
 	DC_Pin(SET);
 	HAL_SPI_Transmit(&hspi2, Data, 1, 1);
 	DC_Pin(RES);
 }
 
-/* No 16 bit anymore
-void SPI_Send_Data_16BIT(uint16_t *Data)
+void SPI_Send_Data_16bit(uint16_t *Data, uint32_t size)
 {
 	DC_Pin(SET);
-	HAL_SPI_Transmit(&hspi2, Data, 1, 1);
+	HAL_SPI_Transmit(&hspi2, (uint8_t*)Data, size, 1);
 	DC_Pin(RES);
 }
-*/
 
-void SPI_Send_Command(uint8_t *Data)
+
+void SPI_Send_Command_8bit(uint8_t *Data)
 {
 	DC_Pin(RES);
 	HAL_SPI_Transmit(&hspi2, Data, 1, 1);
