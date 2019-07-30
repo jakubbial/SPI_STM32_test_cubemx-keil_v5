@@ -95,7 +95,13 @@ int main(void)
   
 	/* USER CODE BEGIN 2 */
 	LCD_Init();
-	Fill_display(1, 0xFF);
+	
+	MX_SPI2_Init_16BIT();
+	
+	uint16_t Col = 0xFFFF;
+	uint8_t* Col_p = (uint8_t*)&Col;
+	
+	Fill_display(1, Col_p);
 	
 	//MX_SPI2_Init_16BIT(); //no 16 bit anymore
   /* USER CODE END 2 */

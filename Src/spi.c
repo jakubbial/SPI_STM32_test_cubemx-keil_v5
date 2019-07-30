@@ -103,12 +103,9 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
 } 
 
 /* USER CODE BEGIN 1 */
-/*  */
 
-/* No 16 bit any more
 void MX_SPI2_Init_16BIT(void)
 {
-
   hspi2.Instance = SPI2;
   hspi2.Init.Mode = SPI_MODE_MASTER;
   hspi2.Init.Direction = SPI_DIRECTION_2LINES;
@@ -125,9 +122,7 @@ void MX_SPI2_Init_16BIT(void)
   {
     Error_Handler();
   }
-
 }
-*/
 
 
 void SPI_Send_Data(uint8_t *Data)

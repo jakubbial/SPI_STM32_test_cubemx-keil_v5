@@ -108,7 +108,7 @@ void LCD_Init(void)
 	{DATA ,0x01},
 	{DATA ,0x04},
 	{DATA ,0x13},
-	{COMMAND ,0x3A},
+	{COMMAND ,0x3A},  //COLMOD: Interface Pixel Format (03h - 12-bit/pixel, 05h - 16-bit/pixel, 06h - 18-bit/pixel)
 	{DATA ,0x05},
 	{COMMAND ,0x29}
 	};
@@ -126,8 +126,12 @@ void LCD_Init(void)
 }
 
 
-
-void Fill_display(uint8_t Display_Type, uint8_t Color)
+/*
+Color mode is set as 16 bit/pixel. Data have to be 16-bit.
+Display types:	1 - 1.8, 128x160
+								2 - 2.8, 240x320
+*/
+void Fill_display(uint8_t Display_Type, uint8_t *Color)
 {
 	uint32_t i;
 	uint32_t Number_of_pixels = 0;
@@ -140,8 +144,9 @@ void Fill_display(uint8_t Display_Type, uint8_t Color)
 	else if(Display_Type == 2){
 		Number_of_pixels = 76800;
 	}
-		
+	
+	
 	for(i=0; i<Number_of_pixels; i++){
-		SPI_Send_Data(&Color);
+		SPI_Send_Data(Color);
 	}
 }
