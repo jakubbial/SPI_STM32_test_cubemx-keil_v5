@@ -12,3 +12,4 @@ void Fill_display(void);
 void LCD_Init_HW(void);
 void LCD_Configure(void);
 void LCD_Init(void);
+void Set_Address (void);

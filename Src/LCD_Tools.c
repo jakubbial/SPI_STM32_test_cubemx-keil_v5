@@ -5,8 +5,8 @@
 
 
 #ifdef SMALL_DISPLAY
-uint32_t Number_of_pixels = 20480;
-uint16_t LCD_Data[20];
+uint32_t Number_of_pixels = 128;
+uint16_t LCD_Data[128];
 #endif
 
 #ifdef BIG_DISPLAY
@@ -147,10 +147,72 @@ void LCD_Configure(void)
 }
 
 
+
+void Set_Address (void){
+	uint8_t Address_1 = 0x2A;
+	uint8_t Dat_1 = 0;
+	uint8_t Dat_2 = 0x64;
+	
+	SPI_Send_Command_8bit(&Address_1);
+	SPI_Send_Data_8bit(&Dat_1);
+	SPI_Send_Data_8bit(&Dat_1);
+	SPI_Send_Data_8bit(&Dat_1);
+	SPI_Send_Data_8bit(&Dat_2);
+	
+	uint8_t Address_2 = 0x2B;
+	SPI_Send_Command_8bit(&Address_2);
+	SPI_Send_Data_8bit(&Dat_1);
+	SPI_Send_Data_8bit(&Dat_1);
+	SPI_Send_Data_8bit(&Dat_1);
+	SPI_Send_Data_8bit(&Dat_2);
+	
+	uint8_t Address_3 = 0x2C;
+	SPI_Send_Command_8bit(&Address_3);
+}
+
+
+
 void LCD_Init(void){
 	LCD_Init_HW();
 	HAL_Delay(10);
 	LCD_Configure();
-	LCD_Data_Preparation(0xFFFF);
+	LCD_Data_Preparation(0xFB01);
+	Set_Address();
+	MX_SPI2_Init_16BIT();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
+	Fill_display();
 	Fill_display();
 }
+
+

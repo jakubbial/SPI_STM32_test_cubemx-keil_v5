@@ -95,9 +95,7 @@ int main(void)
   
 	/* USER CODE BEGIN 2 */
 	LCD_Init();
-	MX_SPI2_Init_16BIT();
 	
-
 	
   /* USER CODE END 2 */
 
