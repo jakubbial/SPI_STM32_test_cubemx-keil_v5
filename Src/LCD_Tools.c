@@ -1,17 +1,39 @@
 #include "LCD_Tools.h"
 #include "spi.h"
 #include "gpio.h"
-
-#define DATA 0
-#define COMMAND 1
+#define SMALL_DISPLAY
 
 
-//enum Display_Type {1_8_Small=1, 2_8_Big=2};
+#ifdef SMALL_DISPLAY
+uint32_t Number_of_pixels = 20480;
+uint16_t LCD_Data[20];
+#endif
+
+#ifdef BIG_DISPLAY
+uint32_t Number_of_pixels = 76800;
+uint16_t LCD_Data[76800];
+#endif
+
+
+/* Fulfill LCD_Data array with Color */
+void LCD_Data_Preparation(uint16_t Color){
+	uint8_t i;
+	for(i=0;i<Number_of_pixels;i++){
+		LCD_Data[i] = Color;
+	}
+}
+
+
+/* Color mode is set as 16 bit/pixel. Data have to be 16-bit. */
+void Fill_display(void)
+{	
+	SPI_Send_Data_16bit(LCD_Data, Number_of_pixels);
+}
 
 
 /* Procedure to initialize LCD display */
-void LCD_Init_procedure(void)
-{
+void LCD_Init_HW(void){
+	
 	DC_Pin(RES);
 	CS_Pin(RES);
 	RESX_Pin(RES);
@@ -29,13 +51,12 @@ void LCD_Init_procedure(void)
 
 
 /* Setup and configure displaying method*/
-void LCD_Init(void)
+void LCD_Configure(void)
 {
-	// start procesure 
-	LCD_Init_procedure();
-	HAL_Delay(10);
+
 	
-	// data/commands to send
+	
+	// Configure display (data/commands to send)
 	uint8_t LcdInitVal_Array[74][2] = {
 	{COMMAND ,0x11},
 	{COMMAND ,0xB1},
@@ -126,34 +147,10 @@ void LCD_Init(void)
 }
 
 
-/*
-Color mode is set as 16 bit/pixel. Data have to be 16-bit.
-Display types:	1 - 1.8, 128x160
-								2 - 2.8, 240x320
-*/
-void Fill_display(uint8_t Display_Type, uint16_t Color)
-{
-	uint32_t i;
-	uint32_t Number_of_pixels = 0;
-	
-	/*	1.8 - 128x160 (20480 piksels) */
-	if(Display_Type == 1){
-		Number_of_pixels = 20480;
-	}
-	/* 2.8 - 240x320 (76800 piksels) */
-	else if(Display_Type == 2){
-		Number_of_pixels = 76800;
-	}
-	
-	uint16_t color_table[Number_of_pixels];
-	
-	for(i=0; i<Number_of_pixels; i++){
-		color_table[i] = Color;
-		SPI_Send_Data_16bit(&Color, 1);
-	}
-	
-	//uint16_t an = 0xFFFF;
-	//SPI_Send_Data_16bit(&an, 1);
-	
-	SPI_Send_Data_16bit(color_table, Number_of_pixels);
+void LCD_Init(void){
+	LCD_Init_HW();
+	HAL_Delay(10);
+	LCD_Configure();
+	LCD_Data_Preparation(0xFFFF);
+	Fill_display();
 }

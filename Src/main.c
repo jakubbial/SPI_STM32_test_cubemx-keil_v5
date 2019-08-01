@@ -97,11 +97,7 @@ int main(void)
 	LCD_Init();
 	MX_SPI2_Init_16BIT();
 	
-	//uint16_t data_tab[4] = {0xAAAA, 0xFFFF, 0x0000, 0xFFFF};
-	//SPI_Send_Data_16bit(&data_tab[0], 1);
-	
-	uint16_t Color = 0xAAAA;
-	Fill_display(1, Color);
+
 	
   /* USER CODE END 2 */
 
