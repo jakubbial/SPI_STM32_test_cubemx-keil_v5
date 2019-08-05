@@ -177,5 +177,12 @@ void LCD_Init(void)
 	HAL_Delay(1);
 	LCD_Configure();
 	Set_Address(0, Num_of_pixels_row, 0, Num_of_pixels_col);
-	Fill_display(0x78A6);
+	Fill_display(0x7FA6);
 }
+
+void Draw_Point(uint8_t X, uint8_t Y, uint16_t Color)
+{
+	Set_Address(X, X, Y, Y);
+	SPI_Send_Data_16bit(&Color, 1);
+}
+
