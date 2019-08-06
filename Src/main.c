@@ -96,13 +96,17 @@ int main(void)
 	/* USER CODE BEGIN 2 */
 	LCD_Init();
 	
-	
+
+	uint16_t color = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-  {
+  {		
+		
+		Fill_display(color);
+		color=color+100;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

@@ -125,25 +125,46 @@ void MX_SPI2_Init_16BIT(void)
 }
 
 
-void SPI_Send_Data_8bit(uint8_t *Data)
+void SPI_Send_Data_8bit(uint8_t *Data, uint32_t size)
 {
+	Switch_Data_Size(8);
 	DC_Pin(SET);
-	HAL_SPI_Transmit(&hspi2, Data, 1, 1);
-	DC_Pin(RES);
+	HAL_SPI_Transmit(&hspi2, Data, size, 1);
 }
 
 void SPI_Send_Data_16bit(uint16_t *Data, uint32_t size)
 {
+	Switch_Data_Size(16);
 	DC_Pin(SET);
 	HAL_SPI_Transmit(&hspi2, (uint8_t*)Data, size, 1);
-	DC_Pin(RES);
 }
 
 
-void SPI_Send_Command_8bit(uint8_t *Data)
+void SPI_Send_Command(uint8_t Data)
 {
+	Switch_Data_Size(8);
 	DC_Pin(RES);
-	HAL_SPI_Transmit(&hspi2, Data, 1, 1);
+	HAL_SPI_Transmit(&hspi2, &Data, 1, 1);
+}
+
+/* Switch between 8-bit and 16-bit transfer */
+void Switch_Data_Size(uint8_t Bits_of_Data)
+{
+	hspi2.Instance = SPI2;
+	
+	if(Bits_of_Data == 8)
+	{
+		hspi2.Init.DataSize = SPI_DATASIZE_8BIT;
+	}
+	else if(Bits_of_Data == 16)
+	{
+	  hspi2.Init.DataSize = SPI_DATASIZE_16BIT;
+	}
+	
+	if (HAL_SPI_Init(&hspi2) != HAL_OK)
+  {
+    Error_Handler();
+  }
 }
 /* USER CODE END 1 */
 
