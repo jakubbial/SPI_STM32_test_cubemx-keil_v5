@@ -96,36 +96,16 @@ int main(void)
 	/* USER CODE BEGIN 2 */
 	LCD_Init();
 	
-	uint8_t X=0;
-	uint8_t Y=0;
-	uint16_t Color = 0;
+	HAL_Delay(500);
+	Fill_Display_By_Points(0xFFFF);
+	HAL_Delay(1000);
+	LCD_DrawLine(0, 0, 100, 150, 0x0);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		Draw_Point(X, Y, Color);
-		HAL_Delay(1);
-		if(X<128 & Y<160)
-		{
-			X++;
-		}
-		else if(X>128 & Y<160)
-		{
-			X=0;
-			Y++;
-		}
-		else if(X<128 & Y>160)
-		{
-			X++;
-		}
-		else if(X>128 & Y>160)
-		{
-			X=0;
-			Y=0;
-			Color++;
-		}
 		
     /* USER CODE END WHILE */
 		

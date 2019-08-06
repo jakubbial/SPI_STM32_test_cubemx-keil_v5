@@ -27,6 +27,24 @@ LCD_CS=1;
 delayms(5);
 LCD_CS =0;
 
+############ Tranzmisja danych SPI -> LCD ######
+
+Jest interfejs równoległy i szeregowy. Tu mamy tylko szeregowy bo takie wyprowadzenia tylko są.
+Szeregowy występuje w wersji 3 linii lub 4 linii
+• 3 linie (CS - chip select, SCL, SDA)
+• 4 linie (CS - chip select, SCL, SDA, D/C Data/Command)
+
+Command write mode
+W 3 liniowym trybie jest wysyłany control bit i potem bajt danych
+W 4 liniowym za wyznaczenie data/command odpowiada osobna linia
+DC LOW	- Command
+DC HIGH	- Data (Dane zapisywane są w pamięci ram lub w rejestrze komendy)
+Każda instrukcja może zostać wysłana w fowolnym momencie
+Procedura startu jest taka że linia CS jest ustawiana w stan wysoki a następnie w stan niski wtedy można wysyłać.
+SDA próbkuje kiedy wykryje rosnące zbocze SCL
+
+Pomiędzy bajtami są dwa cykle zegarowe z podniesioną linią CS
+
 
 
 ############ LCD initialization commands ######
