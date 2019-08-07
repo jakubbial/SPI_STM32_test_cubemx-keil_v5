@@ -16,8 +16,8 @@ uint32_t Number_of_pixels_col = 0x140; // 320d
 uint16_t LCD_Data[240];
 #endif
 
-
 /* Procedure to run LCD HW */
+/* Tested and work correctly */
 void LCD_Init_HW(void){
 	DC_Pin(RES);
 	CS_Pin(RES);
@@ -115,15 +115,18 @@ void LCD_Configure(void){
 	};
 	
 	//send data / commands each one by one
-	int i;
-	for(i=0; i<74; i++) {
-			if(LcdInitVal_Array[i][0] == 1){
-				SPI_Send_Command(LcdInitVal_Array[i][1]);
-			}
-			else if (LcdInitVal_Array[i][0] == 0){
-				SPI_Send_Data_8bit(&LcdInitVal_Array[i][1], 1);
-			}
+	uint8_t i;
+	for(i=0; i<74; i++)
+	{
+		if(LcdInitVal_Array[i][0] == 1)
+		{
+			SPI_Send_Command(LcdInitVal_Array[i][1]);
 		}
+		else if (LcdInitVal_Array[i][0] == 0)
+		{
+			SPI_Send_Data_8bit(&LcdInitVal_Array[i][1], 1);
+		}
+	}
 }
 
 
@@ -131,22 +134,19 @@ void LCD_Configure(void){
 void Set_Address (uint8_t Start_X, uint8_t End_X, uint8_t Start_Y, uint8_t End_Y){
 	uint8_t Zero = 0;
 	
-	uint8_t Address_1 = PIXEL_ADDR_REG_1;
-	SPI_Send_Command(Address_1);
-	SPI_Send_Data_8bit(&Zero, 1);		// Starting point X-axis 1st byte - MSB XS
+	SPI_Send_Command(PIXEL_ADDR_REG_1);
+	SPI_Send_Data_8bit(&Zero, 1);			// Starting point X-axis 1st byte - MSB XS
 	SPI_Send_Data_8bit(&Start_X, 1);	// Starting point X-axis 2nd byte - LSB XS
-	SPI_Send_Data_8bit(&Zero, 1);		// Ending point X-axis 1st byte - MSB XE
+	SPI_Send_Data_8bit(&Zero, 1);			// Ending point X-axis 1st byte - MSB XE
 	SPI_Send_Data_8bit(&End_X, 1);		// Ending point X-axis 2nd byte - MSB XE
 	
-	uint8_t Address_2 = PIXEL_ADDR_REG_2;
-	SPI_Send_Command(Address_2);
-	SPI_Send_Data_8bit(&Zero, 1);		// Starting point Y-axis 1st byte - MSB XS
+	SPI_Send_Command(PIXEL_ADDR_REG_2);
+	SPI_Send_Data_8bit(&Zero, 1);			// Starting point Y-axis 1st byte - MSB XS
 	SPI_Send_Data_8bit(&Start_Y, 1);	// Starting point Y-axis 2nd byte - LSB XS
-	SPI_Send_Data_8bit(&Zero, 1);		// Ending point Y-axis 1st byte - MSB XE
+	SPI_Send_Data_8bit(&Zero, 1);			// Ending point Y-axis 1st byte - MSB XE
 	SPI_Send_Data_8bit(&End_Y, 1);		// Ending point Y-axis 2nd byte - MSB XE
 	
-	uint8_t Address_3 = PIXEL_ADDR_REG_3;
-	SPI_Send_Command(Address_3);
+	SPI_Send_Command(PIXEL_ADDR_REG_3);
 }
 
 /* Fulfill LCD_Data array with Color */
@@ -174,10 +174,10 @@ void Fill_display(uint16_t Color)
 void LCD_Init(void)
 {
 	LCD_Init_HW();
-	HAL_Delay(1);
 	LCD_Configure();
+	HAL_Delay(5);
 	Set_Address(0, Num_of_pixels_row, 0, Num_of_pixels_col);
-	Fill_display(0x7FA6);
+	Fill_display(0xB7cB);
 }
 
 void Draw_Point(uint8_t X, uint8_t Y, uint16_t Color)
