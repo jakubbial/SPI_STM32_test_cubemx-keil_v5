@@ -1,4 +1,19 @@
 ################ TO DO ################
 
-• Increase timeout of SPI transmission. It is counted in ms.
-• 
+• Increase timeout of SPI transmission. It is counted in ms. # Don't care
+
+
+• Problem with transmission odserved during 8 <-> 16 bit switching.
+	Create separate branches:
+		- Workaround
+		- Solution
+	
+	Workaround:
+	- There is need to add function that can switch 2 byte  into 2 x 1 byte and then transmit as 8 bit
+	- Set transmission always as 8 bit mode
+	
+	Solution:
+	- Find out how transmission shoud look like. Check if there is need to have some dummy cycle etc.
+	- Go into HAL driver and try to use most basic operations to transmit data in two modes
+	
+	
