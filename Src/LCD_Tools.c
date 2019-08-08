@@ -160,7 +160,6 @@ void LCD_Data_Preparation(uint16_t Color)
 	}
 }
 
-
 /* Color mode is set as 16 bit/pixel. Data have to be 16-bit. */
 void Fill_display(uint16_t Color)
 {
@@ -168,7 +167,6 @@ void Fill_display(uint16_t Color)
 	LCD_Data_Preparation(Color);
 	for(i=0;i<Num_of_pixels_col;i++)
 	{
-		HAL_Delay(1);
 		SPI_Send_Data_16bit(LCD_Data, Num_of_pixels_row);
 	}
 }
