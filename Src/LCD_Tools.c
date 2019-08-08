@@ -178,6 +178,194 @@ void LCD_Init(void)
 	LCD_Configure();
 	HAL_Delay(5);
 	Set_Address(0, Num_of_pixels_row, 0, Num_of_pixels_col);
-	Fill_display(0xB7cB);
+	Fill_display(0xFFFF);
 }
 
+void Draw_Point(uint8_t X, uint8_t Y, uint16_t Color)
+{
+	Set_Address(X, X, Y, Y);
+	SPI_Send_Data_16bit(&Color, 1);
+}
+
+void Fill_Display_By_Points(uint16_t Color)
+{
+	uint8_t X=0;
+	uint8_t Y=0;
+		
+	while(X<128 & Y<160)
+	{
+		Draw_Point(X, Y, Color);
+		// HAL_Delay(1);
+		if(X<127 & Y<159)
+		{
+			X++;
+		}
+		else if(X>=127 & Y<159)
+		{
+			X=0;
+			Y++;
+		}
+		else if(X<127 & Y>=159)
+		{
+			X++;
+		}
+		else if(X>=127 & Y>=159)
+		{
+			X=0;
+			Y=0;
+		}
+	}
+}
+	
+
+void LCD_DrawLine(uint8_t Xstart, uint8_t Ystart, uint8_t Xend, uint8_t Yend, uint16_t Color)
+{						
+	if (Xstart > Num_of_pixels_row || Ystart > Num_of_pixels_col || Xend > Num_of_pixels_row || Yend > Num_of_pixels_col)
+	{
+		return;
+	}
+
+	uint8_t Xpoint = Xstart; 
+	uint8_t Ypoint = Ystart; 
+	int32_t dx = (int32_t)Xend - (int32_t)Xstart >= 0 ? Xend - Xstart : Xstart - Xend;
+	int32_t dy = (int32_t)Yend - (int32_t)Ystart <= 0 ? Yend - Ystart : Ystart - Yend;
+	
+	// Increment direction, 1 is positive, -1 is counter;
+	int32_t XAddway = Xstart < Xend ? 1 : -1;
+	int32_t YAddway = Ystart < Yend ? 1 : -1;
+	
+	//Cumulative error
+	int32_t Esp = dx + dy;
+	int8_t Line_Style_Temp = 0;
+
+	for (;;)
+	{
+		Line_Style_Temp++;
+		Draw_Point(Xpoint, Ypoint, Color);
+				
+    if(2 * Esp >= dy)
+		{
+			if (Xpoint == Xend) break;
+			Esp += dy;
+			Xpoint += XAddway;
+		}
+		if(2 * Esp <= dx) 
+		{
+			if (Ypoint == Yend) break;
+			Esp += dx;
+			Ypoint += YAddway;
+		}
+	}
+}
+
+
+void LCD_DrawRectangle(uint8_t Xstart, uint8_t Ystart, uint8_t Xend, uint8_t Yend, uint16_t Color)
+{
+	LCD_DrawLine ( Xstart, Ystart, Xend, Ystart, Color);
+	LCD_DrawLine ( Xstart, Ystart, Xstart, Yend, Color);
+	LCD_DrawLine ( Xend, Yend, Xend, Ystart, Color);
+	LCD_DrawLine ( Xend, Yend, Xstart, Yend, Color);		
+}
+
+void LCD_DrawCircle(uint8_t X_Center, uint8_t Y_Center, uint8_t Radius, uint16_t Color)
+{
+	//Draw a circle from (0, R) as a starting point
+	int16_t XCurrent, YCurrent;
+	XCurrent = 0; 
+	YCurrent = Radius;	
+	
+	//Cumulative error,judge the next point of the logo
+	int16_t Esp = 3 - ( Radius << 1 );
+	
+	while ( XCurrent <= YCurrent )
+	{
+		Draw_Point(X_Center + XCurrent, Y_Center + YCurrent, Color);
+		Draw_Point(X_Center - XCurrent, Y_Center + YCurrent, Color);
+		Draw_Point(X_Center - YCurrent, Y_Center + XCurrent, Color);
+		Draw_Point(X_Center - YCurrent, Y_Center - XCurrent, Color);
+		Draw_Point(X_Center - XCurrent, Y_Center - YCurrent, Color);
+		Draw_Point(X_Center + XCurrent, Y_Center - YCurrent, Color);
+		Draw_Point(X_Center + YCurrent, Y_Center - XCurrent, Color);
+		Draw_Point(X_Center + YCurrent, Y_Center + XCurrent, Color);
+		
+		if ( Esp < 0 )
+		{
+			Esp += 4 * XCurrent + 6;
+		}
+		else
+		{
+			Esp += 10 + 4 * ( XCurrent - YCurrent );
+			YCurrent --;
+		}
+		XCurrent ++;
+	}
+}
+
+void LCD_DisplayChar(uint8_t Xpoint, uint8_t Ypoint, const char Acsii_Char,	sFONT* Font, uint16_t Color_Background,	uint16_t Color_Foreground)
+{
+	uint8_t Page, Column;
+	
+	uint32_t Char_Offset = (Acsii_Char - ' ') * Font->Height * (Font->Width / 8 + (Font->Width % 8 ? 1 : 0));
+	const unsigned char* ptr = &Font->table[Char_Offset];
+
+	for ( Page = 0; Page < Font->Height; Page ++ ){
+		for ( Column = 0; Column < Font->Width; Column ++ ){
+			
+				if (*ptr & (0x80 >> (Column % 8))){
+					Draw_Point(Xpoint + Column,Ypoint + Page, Color_Foreground );
+				}else{
+					Draw_Point(Xpoint + Column,Ypoint + Page, Color_Background );
+				}
+			//One pixel is 8 bits
+            if (Column % 8 == 7) {
+                ptr++;
+            }	
+		}/* Write a line */
+		if (Font->Width % 8 != 0) {
+				ptr++;
+		}
+	}/* Write all */
+}
+
+void LCD_DisplayString (uint8_t Xstart, uint8_t Ystart, const char * pString, sFONT* Font, uint16_t Color_Background, uint16_t Color_Foreground ){
+	uint8_t Xpoint = Xstart;
+	uint8_t Ypoint = Ystart;
+		
+	while ( * pString != '\0')
+	{	
+		LCD_DisplayChar ( Xpoint, Ypoint, * pString, Font, Color_Background, Color_Foreground );
+		
+		//The next character of the address
+		pString ++;
+		
+		//The next word of the abscissa increases the font of the broadband
+		Xpoint += Font->Width;	
+	}
+}
+
+#define  ARRAY_LEN 255
+void LCD_DisplayNum(uint8_t Xpoint, uint8_t  Ypoint, int32_t Nummber, sFONT* Font, uint16_t Color_Background, uint16_t Color_Foreground )
+	{
+		
+	int16_t Num_Bit = 0, Str_Bit = 0;
+	uint8_t Str_Array[ARRAY_LEN] = {0},Num_Array[ARRAY_LEN] = {0};
+	uint8_t *pStr = Str_Array;
+	
+	//Converts a number to a string
+	while(Nummber){
+		Num_Array[Num_Bit] = Nummber % 10 + '0';
+		Num_Bit++;
+		Nummber /= 10;
+    }
+	
+	//The string is inverted
+	while( Num_Bit > 0){
+		Str_Array[Str_Bit] = Num_Array[Num_Bit -1];
+		Str_Bit ++;
+		Num_Bit --;
+	}
+	
+	//show
+	LCD_DisplayString( Xpoint, Ypoint,  (const char*)pStr, Font, Color_Background, Color_Foreground );
+}
+						
