@@ -1,0 +1,4 @@
+################ TO DO ################
+
+• Increase timeout of SPI transmission. It is counted in ms.
+• 
