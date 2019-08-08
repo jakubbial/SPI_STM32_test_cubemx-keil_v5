@@ -180,3 +180,4 @@ void LCD_Init(void)
 	Set_Address(0, Num_of_pixels_row, 0, Num_of_pixels_col);
 	Fill_display(0xB7cB);
 }
+

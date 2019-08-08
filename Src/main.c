@@ -96,15 +96,16 @@ int main(void)
 	/* USER CODE BEGIN 2 */
 	LCD_Init();
   /* USER CODE END 2 */
-	HAL_Delay(500);
+	HAL_Delay(100);
 	
-	uint16_t Data_to_send[5] = {0xCCAA, 0xFF11, 0xFF00, 0x1234, 0xBBAA};
-	SPI_Send_Data_16bit(Data_to_send, 5);
-	
+	//uint16_t Data_to_send[5] = {0xCCAA, 0xFF11, 0xFF00, 0x1234, 0xBBAA};
+	//SPI_Send_Data_16bit(Data_to_send, 5);
+	//uint16_t Opak = 0xAAAA;
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		//SPI_Send_Data_16bit(&Opak, 1);
     /* USER CODE END WHILE */
 		
     /* USER CODE BEGIN 3 */
