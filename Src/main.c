@@ -95,46 +95,12 @@ int main(void)
   
 	/* USER CODE BEGIN 2 */
 	LCD_Init();
-	
-	//HAL_Delay(500);
-	//Fill_Display_By_Points(0xFFFF);
-	//HAL_Delay(1000);
-	//LCD_DrawLine(0, 0, 100, 150, 0x0);
   /* USER CODE END 2 */
 
-	uint8_t iterat_8 = 0xAA;
-	uint16_t iterat_16 = 0x0;
-
-	Set_Address(5, 5, 5, 5);
-	SPI_Send_Data_16bit(&iterat_16, 1);
-	Set_Address(6, 6, 5, 5);
-	SPI_Send_Data_16bit(&iterat_16, 1);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
-		//HAL_Delay(250);
-		//Fill_display(iterat_16);
-		/*
-		iterat_16=iterat_16+100;
-		if(iterat_16>65000)
-		{
-			iterat_16=0;
-		}
-		*/
-		//Fill_display(iterat_16);
-		//iterat_16++;
-		//SPI_Send_Command(iterat_8);
-		//HAL_Delay(2);
-		//HAL_SPI_Transmit(&hspi2, &iterat_8, 1, 1);
-		//SPI_Send_Data_8bit(&iterat_8, 1);
-		//HAL_Delay(2);
-		//HAL_SPI_Transmit(&hspi2, (uint8_t*)&iterat_16, 1, 1);
-		//SPI_Send_Data_16bit(&iterat_16, 1);
-		//Draw_Point(iterat, iterat, 0x00);
-		//iterat++;
-		//HAL_Delay(50);
     /* USER CODE END WHILE */
 		
     /* USER CODE BEGIN 3 */

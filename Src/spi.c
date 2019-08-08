@@ -103,32 +103,8 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
 } 
 
 /* USER CODE BEGIN 1 */
-
-void MX_SPI2_Init_16BIT(void)
-{
-  hspi2.Instance = SPI2;
-  hspi2.Init.Mode = SPI_MODE_MASTER;
-  hspi2.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi2.Init.DataSize = SPI_DATASIZE_16BIT;
-  hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
-  hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
-  hspi2.Init.NSS = SPI_NSS_SOFT;
-  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
-  hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
-  hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
-  hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-  hspi2.Init.CRCPolynomial = 10;
-  if (HAL_SPI_Init(&hspi2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-}
-
-
 void SPI_Send_Data_8bit(uint8_t *Data, uint32_t size)
 {
-	//CS_Pin(1);
-	//CS_Pin(0);
 	Switch_Data_Size(8);
 	DC_Pin(SET);
 	HAL_SPI_Transmit(&hspi2, Data, size, 1);
@@ -136,8 +112,6 @@ void SPI_Send_Data_8bit(uint8_t *Data, uint32_t size)
 
 void SPI_Send_Data_16bit(uint16_t *Data, uint32_t size)
 {
-	//CS_Pin(1);
-	//CS_Pin(0);
 	Switch_Data_Size(16);
 	DC_Pin(SET);
 	HAL_SPI_Transmit(&hspi2, (uint8_t*)Data, size, 1);

@@ -17,8 +17,8 @@ uint16_t LCD_Data[240];
 #endif
 
 /* Procedure to run LCD HW */
-/* Tested and work correctly */
-void LCD_Init_HW(void){
+void LCD_Init_HW(void)
+{
 	DC_Pin(RES);
 	CS_Pin(RES);
 	RESX_Pin(RES);
@@ -35,8 +35,8 @@ void LCD_Init_HW(void){
 
 
 /* Setup and configure displaying method*/
-void LCD_Configure(void){
-	// Configure display (data/commands to send)
+void LCD_Configure(void)
+{
 	uint8_t LcdInitVal_Array[74][2] = {
 	{COMMAND ,0x11},
 	{COMMAND ,0xB1},
@@ -131,7 +131,8 @@ void LCD_Configure(void){
 
 
 /* Function that is setting area to write */
-void Set_Address (uint8_t Start_X, uint8_t End_X, uint8_t Start_Y, uint8_t End_Y){
+void Set_Address(uint8_t Start_X, uint8_t End_X, uint8_t Start_Y, uint8_t End_Y)
+{
 	uint8_t Zero = 0;
 	
 	SPI_Send_Command(PIXEL_ADDR_REG_1);
@@ -149,10 +150,12 @@ void Set_Address (uint8_t Start_X, uint8_t End_X, uint8_t Start_Y, uint8_t End_Y
 	SPI_Send_Command(PIXEL_ADDR_REG_3);
 }
 
-/* Fulfill LCD_Data array with Color */
-void LCD_Data_Preparation(uint16_t Color){
+/* Prepare array that contains Num_of_pixels_row in unsigned short int data type (uint16_t) */
+void LCD_Data_Preparation(uint16_t Color)
+{
 	uint8_t i;
-	for(i=0;i<Num_of_pixels_row;i++){
+	for(i=0;i<Num_of_pixels_row;i++)
+	{
 		LCD_Data[i] = Color;
 	}
 }
@@ -179,82 +182,3 @@ void LCD_Init(void)
 	Set_Address(0, Num_of_pixels_row, 0, Num_of_pixels_col);
 	Fill_display(0xB7cB);
 }
-
-void Draw_Point(uint8_t X, uint8_t Y, uint16_t Color)
-{
-	Set_Address(X, X, Y, Y);
-	SPI_Send_Data_16bit(&Color, 1);
-}
-
-void Fill_Display_By_Points(uint16_t Color)
-{
-	uint8_t X=0;
-	uint8_t Y=0;
-		
-	while(X<128 & Y<160)
-	{
-		Draw_Point(X, Y, Color);
-		// HAL_Delay(1);
-		if(X<127 & Y<159)
-		{
-			X++;
-		}
-		else if(X>=127 & Y<159)
-		{
-			X=0;
-			Y++;
-		}
-		else if(X<127 & Y>=159)
-		{
-			X++;
-		}
-		else if(X>=127 & Y>=159)
-		{
-			X=0;
-			Y=0;
-		}
-	}
-}
-	
-
-void LCD_DrawLine(uint8_t Xstart, uint8_t Ystart, uint8_t Xend, uint8_t Yend, uint16_t Color)
-{						
-	if (Xstart > Num_of_pixels_row || Ystart > Num_of_pixels_col || Xend > Num_of_pixels_row || Yend > Num_of_pixels_col)
-	{
-		return;
-	}
-
-	uint8_t Xpoint = Xstart; 
-	uint8_t Ypoint = Ystart; 
-	int32_t dx = (int32_t)Xend - (int32_t)Xstart >= 0 ? Xend - Xstart : Xstart - Xend;
-	int32_t dy = (int32_t)Yend - (int32_t)Ystart <= 0 ? Yend - Ystart : Ystart - Yend;
-	
-	// Increment direction, 1 is positive, -1 is counter;
-	int32_t XAddway = Xstart < Xend ? 1 : -1;
-	int32_t YAddway = Ystart < Yend ? 1 : -1;
-	
-	//Cumulative error
-	int32_t Esp = dx + dy;
-	int8_t Line_Style_Temp = 0;
-
-	for (;;)
-	{
-		Line_Style_Temp++;
-		Draw_Point(Xpoint, Ypoint, Color);
-				
-    if(2 * Esp >= dy)
-		{
-			if (Xpoint == Xend) break;
-			Esp += dy;
-			Xpoint += XAddway;
-		}
-		if(2 * Esp <= dx) 
-		{
-			if (Ypoint == Yend) break;
-			Esp += dx;
-			Ypoint += YAddway;
-		}
-	}
-}
-
-
