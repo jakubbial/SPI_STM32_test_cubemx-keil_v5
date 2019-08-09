@@ -96,25 +96,12 @@ int main(void)
 	/* USER CODE BEGIN 2 */
 	LCD_Init();
   /* USER CODE END 2 */
-	//HAL_Delay(100);
-	//LCD_DrawRectangle(1, 1, 126, 158, 0x0);
-	//LCD_DrawCircle(63, 79, 50, 0x0);
-	//uint16_t col = 0x0;
-  //Fill_display(0xFFFF);
-	//LCD_DisplayChar(5, 5, 'A', &Font12, 0x0, 0xFFFF); 
-	LCD_DisplayString(10,10,"O GURWA!",&Font20, 0xFFFF, 0);
-	
-	uint16_t count = 0;
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		LCD_DisplayNum(10, 30, count, &Font12, 0xFFFF, 0);
-		count++;
-		
-		//Fill_display(col);
-		//col = col+20;
-		HAL_Delay(250);
+		LCD_Features_Selftest();
     /* USER CODE END WHILE */
 		
     /* USER CODE BEGIN 3 */
