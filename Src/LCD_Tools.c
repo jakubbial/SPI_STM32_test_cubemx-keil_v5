@@ -356,7 +356,7 @@ void LCD_DisplayNum(uint8_t Xpoint, uint8_t  Ypoint, int32_t Nummber, sFONT* Fon
 void LCD_Features_Selftest(void)
 {
 	uint8_t i, j;
-	for(i=0; i<2; i++)
+	for(i=0; i<4; i++)
 	{
 		Fill_display(RED);
 		HAL_Delay(333);
@@ -374,7 +374,6 @@ void LCD_Features_Selftest(void)
 		{
 			Draw_Point(X, Y, BLACK);
 			X = X + 2;
-			HAL_Delay(1);
 		}
 		X = 1;
 		Y = Y + 2;
@@ -384,22 +383,22 @@ void LCD_Features_Selftest(void)
 	X=1;
 	Y=1;
 	
-	for(i=0; i<79; i++)
+	for(i=0; i<39; i++)
 	{
 		LCD_DrawLine(X, Y, X+126, Y, BLACK);
-		Y=Y+2;
-		HAL_Delay(100);
+		Y=Y+4;
+		HAL_Delay(50);
 	}
 	
 	Fill_display(WHITE);
 	X=1;
 	Y=1;
 	
-	for(i=0; i<79; i++)
+	for(i=0; i<39; i++)
 	{
 		LCD_DrawLine(X, Y, X, Y+158, BLACK);
-		X=X+2;
-		HAL_Delay(100);
+		X=X+4;
+		HAL_Delay(50);
 	}
 	
 	Fill_display(WHITE);
@@ -407,7 +406,15 @@ void LCD_Features_Selftest(void)
 	Y=1;
 	
 	LCD_DisplayChar(1, 1, 'A', &Font20, WHITE, BLACK);
-	LCD_DisplayString(1, 30, "Test !", &Font20, WHITE, BLACK);
+	LCD_DisplayString(1, 30, "Test!!!", &Font20, WHITE, BLACK);
+	LCD_DisplayNum(1, 60, 2019, &Font20, WHITE, BLACK);
+	HAL_Delay(1000);
+	LCD_DisplayChar(1, 1, 'A', &Font20, WHITE, WHITE);
+	LCD_DisplayString(1, 30, "Test!!!", &Font20, WHITE, WHITE);
+	LCD_DisplayNum(1, 60, 2019, &Font20, WHITE, WHITE);
+	HAL_Delay(1000);
+	LCD_DisplayChar(1, 1, 'A', &Font20, WHITE, BLACK);
+	LCD_DisplayString(1, 30, "Test!!!", &Font20, WHITE, BLACK);
 	LCD_DisplayNum(1, 60, 2019, &Font20, WHITE, BLACK);
 	HAL_Delay(1000);
 }
