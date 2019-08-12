@@ -94,13 +94,19 @@ int main(void)
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 	LCD_Init();
+	Create_Header("Ciulu glupi debilu posrany", 1);
+	Create_Header("Tegesy", 2);
+	Create_Header("O Gurwa", 3);
+	Create_Header("Huje", 7);
+	
+	Create_Header("Huje i kury glupie ciota", 11);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		LCD_Features_Selftest();
+		//LCD_Features_Selftest();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
