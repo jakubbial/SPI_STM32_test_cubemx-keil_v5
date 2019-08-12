@@ -1,6 +1,7 @@
 #include "LCD_Tools.h"
 #include "spi.h"
 #include "gpio.h"
+#include "string.h"
 #define SMALL_DISPLAY
 
 
@@ -419,12 +420,30 @@ void LCD_Features_Selftest(void)
 	HAL_Delay(1000);
 }
 
+uint8_t Generate_Item_Index(uint8_t Item_Position)
+{
+	//uint8_t Number_of_items = (Num_of_pixels_col / Font20.Height) - 1;
+	
+	uint8_t Y_Index = Item_Position * Font20.Height - Font20.Height +1;
+	return Y_Index;
+}
 
-
-
-
-
-
-
-
-
+void Create_Header(const char* Header)
+{
+	uint8_t Number_of_chars = (Num_of_pixels_row / Font20.Width)-4;
+	char* Text_to_print = (char*)Header;
+	
+	if(strlen(Header) >= Number_of_chars)
+	{
+		char* String_p = NULL;
+		memcpy(String_p, Header, Number_of_chars);
+		String_p[Number_of_chars+1] = '.';
+		String_p[Number_of_chars+2] = '.';
+		String_p[Number_of_chars+3] = '.';
+		String_p[Number_of_chars+4] = 0;
+		Text_to_print = String_p;
+	}
+	uint8_t Y_Index = Generate_Item_Index(1);
+	LCD_DisplayString(0, Y_Index, Text_to_print, &Font20, WHITE, BLACK);
+}
+	
