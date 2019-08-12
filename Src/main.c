@@ -92,8 +92,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   MX_SPI2_Init();
-  
-	/* USER CODE BEGIN 2 */
+  /* USER CODE BEGIN 2 */
 	LCD_Init();
   /* USER CODE END 2 */
 
@@ -103,7 +102,7 @@ int main(void)
   {
 		LCD_Features_Selftest();
     /* USER CODE END WHILE */
-		
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */

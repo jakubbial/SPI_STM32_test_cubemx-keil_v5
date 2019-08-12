@@ -68,6 +68,10 @@ void Error_Handler(void);
 #define SPI2_D_C_GPIO_Port GPIOB
 #define SPI2_RESX_Pin GPIO_PIN_6
 #define SPI2_RESX_GPIO_Port GPIOC
+#define LED_Blue_Pin GPIO_PIN_6
+#define LED_Blue_GPIO_Port GPIOB
+#define LED_Green_Pin GPIO_PIN_7
+#define LED_Green_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

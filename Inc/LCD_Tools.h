@@ -11,8 +11,8 @@
 #define PIXEL_ADDR_REG_2 0x2B
 #define PIXEL_ADDR_REG_3 0x2C
 
-#define RED			0x1F
-#define GREEN		0x7E0
+#define RED			0x001F
+#define GREEN		0x07E0
 #define BLUE		0xF800
 #define WHITE		0
 #define BLACK		0xFFFF
