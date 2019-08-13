@@ -427,6 +427,11 @@
               <FileType>1</FileType>
               <FilePath>../Src/stm32l1xx_hal_msp.c</FilePath>
             </File>
+            <File>
+              <FileName>LCD_Menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\LCD_Menu.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

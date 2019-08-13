@@ -4,27 +4,33 @@
 #include "string.h"
 #include "stdlib.h"
 
-#define SMALL_DISPLAY
 
+struct LCD_Params Params_Set;
 
-#ifdef SMALL_DISPLAY									// 128x160 pixels
-uint32_t Num_of_pixels_row = 128; 		// 128d
-uint32_t Num_of_pixels_col = 160; 		// 160d
-uint16_t LCD_Data[128];
-#endif
-
-#ifdef BIG_DISPLAY										 // 240x320 pixels
-uint32_t Number_of_pixels_row = 240;  // 240d
-uint32_t Number_of_pixels_col = 320; // 320d
-uint16_t LCD_Data[240];
-#endif
-
+/* Set of parameters that configure LCD */
+void Set_LCD_Params(uint8_t Display_Type)
+{
+	if(Display_Type == 1)
+	{
+		Params_Set.Number_of_pixels_X = 128;
+		Params_Set.Number_of_pixels_Y = 160;
+	}
+	else if (Display_Type == 2)
+	{
+		Params_Set.Number_of_pixels_X = 240;
+		Params_Set.Number_of_pixels_Y = 320;
+	}
+	Params_Set.Used_Font = Font12;
+	Params_Set.Background_Color = WHITE;
+	Params_Set.Font_Color = BLACK;
+}
 
 /* LCD initialize procedure */
 void LCD_Init(void)
 {
 	LCD_Init_HW();
 	LCD_Configure();
+	Set_LCD_Params(SMALL_DISPLAY);
 	HAL_Delay(1);
 	Fill_display(RED);
 }
@@ -161,25 +167,15 @@ void Set_Address(uint8_t Start_X, uint8_t End_X, uint8_t Start_Y, uint8_t End_Y)
 	SPI_Send_Command(PIXEL_ADDR_REG_3);
 }
 
-/* Prepare array that contains Num_of_pixels_row in unsigned short int data type (uint16_t) */
-void LCD_Data_Preparation(uint16_t Color)
-{
-	uint8_t i;
-	for(i=0; i<Num_of_pixels_row; i++)
-	{
-		LCD_Data[i] = Color;
-	}
-}
-
 /* Color mode is set as 16 bit/pixel. Data have to be 16-bit. */
 void Fill_display(uint16_t Color)
 {
-	Set_Address(0, Num_of_pixels_row, 0, Num_of_pixels_col);
-	uint8_t i = 0;
-	LCD_Data_Preparation(Color);
-	for(i=0;i<Num_of_pixels_col;i++)
+	Set_Address(0, Params_Set.Number_of_pixels_X, 0, Params_Set.Number_of_pixels_Y);
+	
+	uint32_t i;
+	for(i=0; i< Params_Set.Number_of_pixels_X*Params_Set.Number_of_pixels_Y; i++)
 	{
-		SPI_Send_Data_16bit(LCD_Data, Num_of_pixels_row);
+		SPI_Send_Data_16bit(&Color, 1);
 	}
 }
 
@@ -194,7 +190,10 @@ void Draw_Point(uint8_t X, uint8_t Y, uint16_t Color)
 void LCD_DrawLine(uint8_t Xstart, uint8_t Ystart, uint8_t Xend, uint8_t Yend, uint16_t Color)
 {		
 	/* If line is too long don't draw it and return */
-	if (Xstart > Num_of_pixels_row || Ystart > Num_of_pixels_col || Xend > Num_of_pixels_row || Yend > Num_of_pixels_col)
+	if (Xstart > Params_Set.Number_of_pixels_X ||
+			Ystart > Params_Set.Number_of_pixels_Y ||
+			Xend > Params_Set.Number_of_pixels_X 	 ||
+			Yend > Params_Set.Number_of_pixels_Y)
 	{
 		return;
 	}
@@ -437,15 +436,16 @@ void LCD_Features_Selftest(void)
 
 uint8_t Generate_Item_Index(uint8_t Item_Position)
 {	
-	uint8_t Y_Index = Item_Position * Font12.Height - Font12.Height;
+	uint8_t Y_Index = Item_Position * Params_Set.Used_Font.Height - Params_Set.Used_Font.Height;
 	return Y_Index;
 }
 
-void Create_Header(const char* Header, uint8_t item)
+void Create_Header(const char* Header, uint8_t Item)
 {
-	uint8_t Number_of_chars = (Num_of_pixels_row / Font12.Width)-7;	
-	uint8_t Y_Index = Generate_Item_Index(item);
+	uint8_t Number_of_chars = (Params_Set.Number_of_pixels_X / Params_Set.Used_Font.Width)-7;	
+	uint8_t Y_Index = Generate_Item_Index(Item);
 	
+	// If string to display too long cut it and then add '...' If not, leave it as it is
 	if(strlen(Header) >= Number_of_chars)
 	{
 		char* String_p = malloc(Number_of_chars+4);
