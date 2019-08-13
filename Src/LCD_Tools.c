@@ -352,24 +352,26 @@ void LCD_DisplayNum(uint8_t Xpoint, uint8_t  Ypoint, int32_t Nummber, sFONT* Fon
 		Str_Bit ++;
 		Num_Bit --;
 	}
-	//show
 	LCD_DisplayString( Xpoint, Ypoint,  (const char*)pStr, Font, Color_Background, Color_Foreground );
 }
 
+/* Function that can test all LCD functions */
 void LCD_Features_Selftest(void)
 {
+	/* Display colors in array */
 	uint8_t i, j;
 	for(i=0; i<4; i++)
 	{
-		Fill_display(RED);
-		HAL_Delay(333);
-		Fill_display(GREEN);
-		HAL_Delay(333);
-		Fill_display(BLUE);
-		HAL_Delay(333);		
+		uint16_t Colors[3] = {RED, GREEN, BLUE};
+		for(j=0; j<3; j++)
+		{
+			Fill_display(Colors[j]);
+			HAL_Delay(333);
+		}
 	}
 	Fill_display(WHITE);
 	
+	/* Draw every second pixel */
 	uint8_t X=1, Y=1;
 	for(i=0; i<79; i++)
 	{
@@ -381,46 +383,57 @@ void LCD_Features_Selftest(void)
 		X = 1;
 		Y = Y + 2;
 	}
-	
 	Fill_display(WHITE);
+	
+	/* Draw line every fourth pixel horizontal */
 	X=1;
 	Y=1;
-	
 	for(i=0; i<39; i++)
 	{
 		LCD_DrawLine(X, Y, X+126, Y, BLACK);
 		Y=Y+4;
 		HAL_Delay(50);
 	}
-	
 	Fill_display(WHITE);
+	
+	/* Draw line every fourth pixel vertical */
 	X=1;
 	Y=1;
-	
 	for(i=0; i<39; i++)
 	{
 		LCD_DrawLine(X, Y, X, Y+158, BLACK);
 		X=X+4;
 		HAL_Delay(50);
 	}
-	
 	Fill_display(WHITE);
-	X=1;
-	Y=1;
 	
-	LCD_DisplayChar(1, 1, 'A', &Font20, WHITE, BLACK);
-	LCD_DisplayString(1, 30, "Test!!!", &Font20, WHITE, BLACK);
-	LCD_DisplayNum(1, 60, 2019, &Font20, WHITE, BLACK);
-	HAL_Delay(1000);
-	LCD_DisplayChar(1, 1, 'A', &Font20, WHITE, WHITE);
-	LCD_DisplayString(1, 30, "Test!!!", &Font20, WHITE, WHITE);
-	LCD_DisplayNum(1, 60, 2019, &Font20, WHITE, WHITE);
-	HAL_Delay(1000);
-	LCD_DisplayChar(1, 1, 'A', &Font20, WHITE, BLACK);
-	LCD_DisplayString(1, 30, "Test!!!", &Font20, WHITE, BLACK);
-	LCD_DisplayNum(1, 60, 2019, &Font20, WHITE, BLACK);
-	HAL_Delay(1000);
+	/* Struct needed to display char, string and number */
+	struct Display_Things
+	{
+		uint8_t Y_point;
+		char Char_to_display;
+		const char *String;
+		uint32_t Number;
+		sFONT *Used_Font;
+		uint16_t Color_FG;
+		uint16_t Color_BG;
+	};
+	
+	/* Struct array initialization */
+	struct Display_Things Tekst[3] = {{1, 'A', "Test!!!", 2019, &Font16, WHITE, BLACK},
+																		{1, 'A', "Test!!!", 2019, &Font16, WHITE, WHITE},
+																		{1, 'A', "Test!!!", 2019, &Font16, WHITE, BLACK}};
+	
+	/* Display things that array contains */
+	for(i=0; i<3; i++)
+	{
+		LCD_DisplayChar(1, Tekst[i].Y_point, Tekst[i].Char_to_display, Tekst[i].Used_Font, Tekst[i].Color_FG, Tekst[i].Color_BG);
+		LCD_DisplayString(1, Tekst[i].Y_point+30, Tekst[i].String, Tekst[i].Used_Font, Tekst[i].Color_FG, Tekst[i].Color_BG);
+		LCD_DisplayNum(1, Tekst[i].Y_point+60, Tekst[i].Number, Tekst[i].Used_Font, Tekst[i].Color_FG, Tekst[i].Color_BG);
+		HAL_Delay(1000);
+	}
 }
+
 
 uint8_t Generate_Item_Index(uint8_t Item_Position)
 {	
