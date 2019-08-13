@@ -94,6 +94,8 @@ int main(void)
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 	LCD_Init();
+	LCD_Features_Selftest();
+	Fill_display(BLACK);
 	Create_Header("Ciulu glupi debilu posrany", 1);
 	Create_Header("Tegesy", 2);
 	Create_Header("O Gurwa", 3);
