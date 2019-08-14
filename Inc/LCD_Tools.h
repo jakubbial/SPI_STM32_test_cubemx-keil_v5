@@ -17,22 +17,39 @@
 #define WHITE		0xFFFF
 #define BLACK		0
 
-#define SMALL_DISPLAY	1
-#define BIG_DISPLAY		2
+#define SMALL_DISPLAY
+
+#ifdef SMALL_DISPLAY
+#define X_PIXELS 128
+#define Y_PIXELS 160
+#endif
+
+#ifdef BIG_DISPLAY
+#define X_PIXELS 240
+#define Y_PIXELS 320
+#endif
+
 
 struct LCD_Params
 {
 	uint16_t Number_of_pixels_X;
 	uint16_t Number_of_pixels_Y;
+	uint16_t Color;
+};
+
+
+struct Item_Params
+{
 	sFONT Used_Font;
 	uint16_t Background_Color;
 	uint16_t Font_Color;
 };
 
+void Set_LCD_Params(struct LCD_Params* Params_Set, uint16_t Color);
 void LCD_Init_HW(void);
 void LCD_Configure(void);
 void Set_Address (uint8_t Start_X, uint8_t End_X, uint8_t Start_Y, uint8_t End_Y);
-void Fill_display(uint16_t Color);
+void Fill_display(struct LCD_Params* Params_Set, uint16_t Color);
 void LCD_Init(void);
 void Draw_Point(uint8_t X, uint8_t Y, uint16_t Color);
 void LCD_DrawLine(uint8_t Xstart, uint8_t Ystart, uint8_t Xend, uint8_t Yend, uint16_t Color);
@@ -42,6 +59,6 @@ void LCD_DisplayChar(uint8_t Xpoint, uint8_t Ypoint, const char Acsii_Char,	sFON
 void LCD_DisplayString (uint8_t Xstart, uint8_t Ystart, const char * pString, sFONT* Font, uint16_t Color_Background, uint16_t Color_Foreground );
 void LCD_DisplayNum(uint8_t Xpoint, uint8_t  Ypoint, int32_t Nummber, sFONT* Font, uint16_t Color_Background, uint16_t Color_Foreground );
 void LCD_Features_Selftest(void);
-void Create_Header(const char* Header, uint8_t Item);
-void Set_LCD_Params(uint8_t Display_Type);
+void Create_Item(const char* Header, uint8_t Item);
+
 

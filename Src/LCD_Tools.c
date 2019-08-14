@@ -5,34 +5,33 @@
 #include "stdlib.h"
 
 
-struct LCD_Params Params_Set;
+struct LCD_Params Params_Set_Init;
+struct Item_Params Header_Item, Normal_Item;
 
 /* Set of parameters that configure LCD */
-void Set_LCD_Params(uint8_t Display_Type)
+void Set_LCD_Params(struct LCD_Params* Params_Set, uint16_t Color)
 {
-	if(Display_Type == 1)
-	{
-		Params_Set.Number_of_pixels_X = 128;
-		Params_Set.Number_of_pixels_Y = 160;
-	}
-	else if (Display_Type == 2)
-	{
-		Params_Set.Number_of_pixels_X = 240;
-		Params_Set.Number_of_pixels_Y = 320;
-	}
-	Params_Set.Used_Font = Font12;
-	Params_Set.Background_Color = WHITE;
-	Params_Set.Font_Color = BLACK;
+	Params_Set->Number_of_pixels_X = X_PIXELS;
+	Params_Set->Number_of_pixels_Y = Y_PIXELS;
+	Params_Set->Color = Color;
+}
+
+/* Set of parameters thar configure item */
+void Set_Item_Params(struct Item_Params* Item, sFONT Font, uint16_t Font_Color, uint16_t BG_Color)
+{
+	Item->Used_Font = Font;
+	Item->Font_Color = Font_Color;
+	Item->Background_Color = BG_Color;
 }
 
 /* LCD initialize procedure */
 void LCD_Init(void)
 {
-	LCD_Init_HW();
-	LCD_Configure();
-	Set_LCD_Params(SMALL_DISPLAY);
+	LCD_Init_HW();																					// Initialization procedure
+	LCD_Configure();																				// Send pack of commands and parameters
+	Set_LCD_Params(&Params_Set_Init, GREEN);								// Set display size, and default color
 	HAL_Delay(1);
-	Fill_display(RED);
+	Fill_display(&Params_Set_Init, Params_Set_Init.Color);	// Fill display of specified color
 }
 
 /* Procedure to run LCD HW */
@@ -168,12 +167,12 @@ void Set_Address(uint8_t Start_X, uint8_t End_X, uint8_t Start_Y, uint8_t End_Y)
 }
 
 /* Color mode is set as 16 bit/pixel. Data have to be 16-bit. */
-void Fill_display(uint16_t Color)
+void Fill_display(struct LCD_Params* Params_Set, uint16_t Color)
 {
-	Set_Address(0, Params_Set.Number_of_pixels_X, 0, Params_Set.Number_of_pixels_Y);
+	Set_Address(0, Params_Set->Number_of_pixels_X, 0, Params_Set->Number_of_pixels_Y);
 	
 	uint32_t i;
-	for(i=0; i< Params_Set.Number_of_pixels_X*Params_Set.Number_of_pixels_Y; i++)
+	for(i=0; i< Params_Set->Number_of_pixels_X*Params_Set->Number_of_pixels_Y; i++)
 	{
 		SPI_Send_Data_16bit(&Color, 1);
 	}
@@ -189,15 +188,6 @@ void Draw_Point(uint8_t X, uint8_t Y, uint16_t Color)
 /* Function is able to draw line in speciffic color */
 void LCD_DrawLine(uint8_t Xstart, uint8_t Ystart, uint8_t Xend, uint8_t Yend, uint16_t Color)
 {		
-	/* If line is too long don't draw it and return */
-	if (Xstart > Params_Set.Number_of_pixels_X ||
-			Ystart > Params_Set.Number_of_pixels_Y ||
-			Xend > Params_Set.Number_of_pixels_X 	 ||
-			Yend > Params_Set.Number_of_pixels_Y)
-	{
-		return;
-	}
-
 	uint8_t Xpoint = Xstart; 
 	uint8_t Ypoint = Ystart; 
 	int32_t dx = (int32_t)Xend - (int32_t)Xstart >= 0 ? Xend - Xstart : Xstart - Xend;
@@ -364,11 +354,11 @@ void LCD_Features_Selftest(void)
 		uint16_t Colors[3] = {RED, GREEN, BLUE};
 		for(j=0; j<3; j++)
 		{
-			Fill_display(Colors[j]);
+			Fill_display(&Params_Set_Init, Colors[j]);
 			HAL_Delay(333);
 		}
 	}
-	Fill_display(WHITE);
+	Fill_display(&Params_Set_Init, WHITE);
 	
 	/* Draw every second pixel */
 	uint8_t X=1, Y=1;
@@ -382,7 +372,7 @@ void LCD_Features_Selftest(void)
 		X = 1;
 		Y = Y + 2;
 	}
-	Fill_display(WHITE);
+	Fill_display(&Params_Set_Init, WHITE);
 	
 	/* Draw line every fourth pixel horizontal */
 	X=1;
@@ -393,7 +383,7 @@ void LCD_Features_Selftest(void)
 		Y=Y+4;
 		HAL_Delay(50);
 	}
-	Fill_display(WHITE);
+	Fill_display(&Params_Set_Init, WHITE);
 	
 	/* Draw line every fourth pixel vertical */
 	X=1;
@@ -404,7 +394,7 @@ void LCD_Features_Selftest(void)
 		X=X+4;
 		HAL_Delay(50);
 	}
-	Fill_display(WHITE);
+	Fill_display(&Params_Set_Init, WHITE);
 	
 	/* Struct needed to display char, string and number */
 	struct Display_Things
@@ -434,13 +424,13 @@ void LCD_Features_Selftest(void)
 }
 
 
-uint8_t Generate_Item_Index(uint8_t Item_Position)
+uint8_t Generate_Item_Index(struct Item_Params Params_Set, uint8_t Item_Position)
 {	
 	uint8_t Y_Index = Item_Position * Params_Set.Used_Font.Height - Params_Set.Used_Font.Height;
 	return Y_Index;
 }
 
-void Create_Header(const char* Header, uint8_t Item)
+void Create_Item(struct Item_Params Params_Set, const char* Header, uint8_t Item)
 {
 	uint8_t Number_of_chars = (Params_Set.Number_of_pixels_X / Params_Set.Used_Font.Width)-7;	
 	uint8_t Y_Index = Generate_Item_Index(Item);
