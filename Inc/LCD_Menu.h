@@ -12,3 +12,4 @@ struct Item
 
 
 void Fulfill_list(void);
+void Change_Item_Value(uint8_t Item_Number, uint32_t New_Val);

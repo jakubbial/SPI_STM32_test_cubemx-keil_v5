@@ -95,17 +95,24 @@ int main(void)
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 	LCD_Init();
-	LCD_Features_Selftest();
+	//LCD_Features_Selftest();
 	Fill_display(BLACK);
-	
 	Fulfill_list();
 
+	uint32_t Temp = 0, Temp2=34;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		Change_Item_Value(3, Temp);
+		Temp++;
+		HAL_Delay(500);
+		Change_Item_Value(7, Temp2);
+		Temp2--;
+		HAL_Delay(500);
+
 		//LCD_Features_Selftest();
     /* USER CODE END WHILE */
 

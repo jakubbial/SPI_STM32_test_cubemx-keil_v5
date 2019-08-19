@@ -243,7 +243,7 @@ void LCD_DrawRectangle(uint8_t Xstart, uint8_t Ystart, uint8_t Xend, uint8_t Yen
 		Num_of_lines = Yend - Ystart;
 		for(i=0; i<Num_of_lines; i++)
 		{
-			LCD_DrawLine(Xstart, Ystart, Xend, Ystart, Color);
+			LCD_DrawLine(Xstart, Ystart+i, Xend, Ystart+i, Color);
 		}
 	}
 }
@@ -361,7 +361,7 @@ void LCD_Features_Selftest(void)
 {
 	/* Display colors in array */
 	uint8_t i, j;
-	for(i=0; i<4; i++)
+	for(i=0; i<1; i++)
 	{
 		uint16_t Colors[3] = {RED, GREEN, BLUE};
 		for(j=0; j<3; j++)
@@ -442,14 +442,41 @@ uint8_t Generate_Item_Index(struct Item_Params Params_Set, uint8_t Item_Position
 	return Y_Index;
 }
 
-/* Function displays item that contain text */
-void LCD_Create_Item(struct Item_Params Params_Set, const char* Text, uint8_t Item)
+/* Function displays item that contain text
+void LCD_Create_Item(struct Item_Params Params_Set, const char* Text, uint32_t Number, uint8_t Item)
+{
+	uint8_t Number_of_chars = (Params_Set_Init.Number_of_pixels_X / Params_Set.Used_Font.Width)-7;	
+	uint8_t Y_Index = Generate_Item_Index(Params_Set, Item);
+	uint8_t X_Nr_Index = (Number_of_chars*Params_Set.Used_Font.Width)+Params_Set.Used_Font.Width;
+	
+	// Draw item background
+	LCD_DrawRectangle(0, Y_Index, Params_Set_Init.Number_of_pixels_X, Y_Index+Params_Set.Used_Font.Height, Params_Set.Background_Color, 'T');
+	
+	// If string to display too long cut it and then add '...' If not, leave it as it is
+	if(strlen(Text) >= Number_of_chars)
+	{
+		char* String_p = malloc(Number_of_chars+4);
+		String_p = memcpy(String_p, Text, Number_of_chars);
+		String_p[Number_of_chars] = '.';
+		String_p[Number_of_chars+1] = '.';
+		String_p[Number_of_chars+2] = '.';
+		String_p[Number_of_chars+3] = 0;
+		LCD_DisplayString(0, Y_Index, String_p, &Params_Set.Used_Font, Params_Set.Background_Color , Params_Set.Font_Color);
+	}else
+	{
+		LCD_DisplayString(0, Y_Index, Text, &Params_Set.Used_Font, Params_Set.Background_Color , Params_Set.Font_Color);
+	}
+	LCD_DisplayNum(X_Nr_Index, Y_Index, Number, &Params_Set.Used_Font, Params_Set.Background_Color, Params_Set.Font_Color);
+}
+*/
+
+void Display_String(struct Item_Params Params_Set, const char* Text, uint8_t Item)
 {
 	uint8_t Number_of_chars = (Params_Set_Init.Number_of_pixels_X / Params_Set.Used_Font.Width)-7;	
 	uint8_t Y_Index = Generate_Item_Index(Params_Set, Item);
 	
 	// Draw item background
-	LCD_DrawRectangle(0, Y_Index, Params_Set_Init.Number_of_pixels_X, Params_Set.Used_Font.Height, Params_Set.Background_Color, 'T');
+	LCD_DrawRectangle(0, Y_Index, Params_Set_Init.Number_of_pixels_X, Y_Index+Params_Set.Used_Font.Height, Params_Set.Background_Color, 'T');
 	
 	// If string to display too long cut it and then add '...' If not, leave it as it is
 	if(strlen(Text) >= Number_of_chars)
@@ -467,6 +494,16 @@ void LCD_Create_Item(struct Item_Params Params_Set, const char* Text, uint8_t It
 	}
 }
 
+void Display_Number(struct Item_Params Params_Set, uint32_t Number, uint8_t Item)
+{
+	uint8_t Number_of_chars = (Params_Set_Init.Number_of_pixels_X / Params_Set.Used_Font.Width)-7;	
+	uint8_t X_Nr_Index = (Number_of_chars*Params_Set.Used_Font.Width)+Params_Set.Used_Font.Width;
+	uint8_t Y_Index = Generate_Item_Index(Params_Set, Item);
+	LCD_DisplayNum(X_Nr_Index, Y_Index, Number, &Params_Set.Used_Font, Params_Set.Background_Color, Params_Set.Font_Color);
+}
 
-
-
+void LCD_Create_Item(struct Item_Params Params_Set, const char* Text, uint32_t Number, uint8_t Item)
+{
+	Display_String(Params_Set, Text, Item);
+	Display_Number(Params_Set, Number, Item);
+}

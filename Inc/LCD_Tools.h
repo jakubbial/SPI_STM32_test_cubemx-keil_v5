@@ -11,9 +11,9 @@
 #define PIXEL_ADDR_REG_2 0x2B
 #define PIXEL_ADDR_REG_3 0x2C
 
-#define RED			0x001F
-#define GREEN		0xF800
-#define BLUE		0x07E0
+#define GREEN		0x001F
+#define BLUE		0xF800
+#define RED		  0x07E0
 #define WHITE		0xFFFF
 #define BLACK		0
 
@@ -60,6 +60,7 @@ void LCD_DisplayChar(uint8_t Xpoint, uint8_t Ypoint, const char Acsii_Char,	sFON
 void LCD_DisplayString (uint8_t Xstart, uint8_t Ystart, const char * pString, sFONT* Font, uint16_t Color_Background, uint16_t Color_Foreground );
 void LCD_DisplayNum(uint8_t Xpoint, uint8_t  Ypoint, int32_t Nummber, sFONT* Font, uint16_t Color_Background, uint16_t Color_Foreground );
 void LCD_Features_Selftest(void);
-void LCD_Create_Item(struct Item_Params Params_Set, const char* Text, uint8_t Item);
+void Display_Number(struct Item_Params Params_Set, uint32_t Number, uint8_t Item);
+void LCD_Create_Item(struct Item_Params Params_Set, const char* Text, uint32_t Number, uint8_t Item);
 
 
