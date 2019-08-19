@@ -37,7 +37,6 @@ struct LCD_Params
 	uint16_t Color;
 };
 
-
 struct Item_Params
 {
 	sFONT Used_Font;
@@ -45,20 +44,22 @@ struct Item_Params
 	uint16_t Font_Color;
 };
 
+
 void Set_LCD_Params(struct LCD_Params* Params_Set, uint16_t Color);
+void Set_Item_Params(struct Item_Params* Item, sFONT Font, uint16_t Font_Color, uint16_t BG_Color);
 void LCD_Init_HW(void);
 void LCD_Configure(void);
 void Set_Address (uint8_t Start_X, uint8_t End_X, uint8_t Start_Y, uint8_t End_Y);
-void Fill_display(struct LCD_Params* Params_Set, uint16_t Color);
+void Fill_display(uint16_t Color);
 void LCD_Init(void);
 void Draw_Point(uint8_t X, uint8_t Y, uint16_t Color);
 void LCD_DrawLine(uint8_t Xstart, uint8_t Ystart, uint8_t Xend, uint8_t Yend, uint16_t Color);
-void LCD_DrawRectangle(uint8_t Xstart, uint8_t Ystart, uint8_t Xend, uint8_t Yend, uint16_t Color);
+void LCD_DrawRectangle(uint8_t Xstart, uint8_t Ystart, uint8_t Xend, uint8_t Yend, uint16_t Color, char Fulfilled);
 void LCD_DrawCircle(uint8_t X_Center, uint8_t Y_Center, uint8_t Radius, uint16_t Color);
 void LCD_DisplayChar(uint8_t Xpoint, uint8_t Ypoint, const char Acsii_Char,	sFONT* Font, uint16_t Color_Background,	uint16_t Color_Foreground);
 void LCD_DisplayString (uint8_t Xstart, uint8_t Ystart, const char * pString, sFONT* Font, uint16_t Color_Background, uint16_t Color_Foreground );
 void LCD_DisplayNum(uint8_t Xpoint, uint8_t  Ypoint, int32_t Nummber, sFONT* Font, uint16_t Color_Background, uint16_t Color_Foreground );
 void LCD_Features_Selftest(void);
-void Create_Item(const char* Header, uint8_t Item);
+void LCD_Create_Item(struct Item_Params Params_Set, const char* Text, uint8_t Item);
 
 

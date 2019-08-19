@@ -27,6 +27,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "LCD_Tools.h"
+#include "LCD_Menu.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -96,12 +97,9 @@ int main(void)
 	LCD_Init();
 	LCD_Features_Selftest();
 	Fill_display(BLACK);
-	Create_Header("Ciulu glupi debilu posrany", 1);
-	Create_Header("Tegesy", 2);
-	Create_Header("O Gurwa", 3);
-	Create_Header("Huje", 7);
 	
-	Create_Header("Huje i kury glupie ciota", 11);
+	Fulfill_list();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */

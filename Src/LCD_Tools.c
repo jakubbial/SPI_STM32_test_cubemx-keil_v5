@@ -6,7 +6,7 @@
 
 
 struct LCD_Params Params_Set_Init;
-struct Item_Params Header_Item, Normal_Item;
+
 
 /* Set of parameters that configure LCD */
 void Set_LCD_Params(struct LCD_Params* Params_Set, uint16_t Color)
@@ -31,7 +31,7 @@ void LCD_Init(void)
 	LCD_Configure();																				// Send pack of commands and parameters
 	Set_LCD_Params(&Params_Set_Init, GREEN);								// Set display size, and default color
 	HAL_Delay(1);
-	Fill_display(&Params_Set_Init, Params_Set_Init.Color);	// Fill display of specified color
+	Fill_display(Params_Set_Init.Color);										// Fill display of specified color
 }
 
 /* Procedure to run LCD HW */
@@ -167,12 +167,12 @@ void Set_Address(uint8_t Start_X, uint8_t End_X, uint8_t Start_Y, uint8_t End_Y)
 }
 
 /* Color mode is set as 16 bit/pixel. Data have to be 16-bit. */
-void Fill_display(struct LCD_Params* Params_Set, uint16_t Color)
+void Fill_display(uint16_t Color)
 {
-	Set_Address(0, Params_Set->Number_of_pixels_X, 0, Params_Set->Number_of_pixels_Y);
+	Set_Address(0, Params_Set_Init.Number_of_pixels_X, 0, Params_Set_Init.Number_of_pixels_Y);
 	
 	uint32_t i;
-	for(i=0; i< Params_Set->Number_of_pixels_X*Params_Set->Number_of_pixels_Y; i++)
+	for(i=0; i< Params_Set_Init.Number_of_pixels_X*Params_Set_Init.Number_of_pixels_Y; i++)
 	{
 		SPI_Send_Data_16bit(&Color, 1);
 	}
@@ -228,12 +228,24 @@ void LCD_DrawLine(uint8_t Xstart, uint8_t Ystart, uint8_t Xend, uint8_t Yend, ui
 }
 
 /* Function that can draw rectangle */
-void LCD_DrawRectangle(uint8_t Xstart, uint8_t Ystart, uint8_t Xend, uint8_t Yend, uint16_t Color)
+void LCD_DrawRectangle(uint8_t Xstart, uint8_t Ystart, uint8_t Xend, uint8_t Yend, uint16_t Color, char Fulfilled)
 {
-	LCD_DrawLine ( Xstart, Ystart, Xend, Ystart, Color);
-	LCD_DrawLine ( Xstart, Ystart, Xstart, Yend, Color);
-	LCD_DrawLine ( Xend, Yend, Xend, Ystart, Color);
-	LCD_DrawLine ( Xend, Yend, Xstart, Yend, Color);		
+	if(Fulfilled == 'F')
+	{
+		LCD_DrawLine ( Xstart, Ystart, Xend, Ystart, Color);
+		LCD_DrawLine ( Xstart, Ystart, Xstart, Yend, Color);
+		LCD_DrawLine ( Xend, Yend, Xend, Ystart, Color);
+		LCD_DrawLine ( Xend, Yend, Xstart, Yend, Color);
+	}
+	else if(Fulfilled == 'T')
+	{
+		uint8_t i=0, Num_of_lines=0;
+		Num_of_lines = Yend - Ystart;
+		for(i=0; i<Num_of_lines; i++)
+		{
+			LCD_DrawLine(Xstart, Ystart, Xend, Ystart, Color);
+		}
+	}
 }
 
 
@@ -354,11 +366,11 @@ void LCD_Features_Selftest(void)
 		uint16_t Colors[3] = {RED, GREEN, BLUE};
 		for(j=0; j<3; j++)
 		{
-			Fill_display(&Params_Set_Init, Colors[j]);
+			Fill_display(Colors[j]);
 			HAL_Delay(333);
 		}
 	}
-	Fill_display(&Params_Set_Init, WHITE);
+	Fill_display(WHITE);
 	
 	/* Draw every second pixel */
 	uint8_t X=1, Y=1;
@@ -372,7 +384,7 @@ void LCD_Features_Selftest(void)
 		X = 1;
 		Y = Y + 2;
 	}
-	Fill_display(&Params_Set_Init, WHITE);
+	Fill_display(WHITE);
 	
 	/* Draw line every fourth pixel horizontal */
 	X=1;
@@ -383,7 +395,7 @@ void LCD_Features_Selftest(void)
 		Y=Y+4;
 		HAL_Delay(50);
 	}
-	Fill_display(&Params_Set_Init, WHITE);
+	Fill_display(WHITE);
 	
 	/* Draw line every fourth pixel vertical */
 	X=1;
@@ -394,7 +406,7 @@ void LCD_Features_Selftest(void)
 		X=X+4;
 		HAL_Delay(50);
 	}
-	Fill_display(&Params_Set_Init, WHITE);
+	Fill_display(WHITE);
 	
 	/* Struct needed to display char, string and number */
 	struct Display_Things
@@ -430,24 +442,31 @@ uint8_t Generate_Item_Index(struct Item_Params Params_Set, uint8_t Item_Position
 	return Y_Index;
 }
 
-void Create_Item(struct Item_Params Params_Set, const char* Header, uint8_t Item)
+/* Function displays item that contain text */
+void LCD_Create_Item(struct Item_Params Params_Set, const char* Text, uint8_t Item)
 {
-	uint8_t Number_of_chars = (Params_Set.Number_of_pixels_X / Params_Set.Used_Font.Width)-7;	
-	uint8_t Y_Index = Generate_Item_Index(Item);
+	uint8_t Number_of_chars = (Params_Set_Init.Number_of_pixels_X / Params_Set.Used_Font.Width)-7;	
+	uint8_t Y_Index = Generate_Item_Index(Params_Set, Item);
+	
+	// Draw item background
+	LCD_DrawRectangle(0, Y_Index, Params_Set_Init.Number_of_pixels_X, Params_Set.Used_Font.Height, Params_Set.Background_Color, 'T');
 	
 	// If string to display too long cut it and then add '...' If not, leave it as it is
-	if(strlen(Header) >= Number_of_chars)
+	if(strlen(Text) >= Number_of_chars)
 	{
 		char* String_p = malloc(Number_of_chars+4);
-		String_p = memcpy(String_p, Header, Number_of_chars);
+		String_p = memcpy(String_p, Text, Number_of_chars);
 		String_p[Number_of_chars] = '.';
 		String_p[Number_of_chars+1] = '.';
 		String_p[Number_of_chars+2] = '.';
 		String_p[Number_of_chars+3] = 0;
-		LCD_DisplayString(0, Y_Index, String_p, &Font12, WHITE, BLACK);
+		LCD_DisplayString(0, Y_Index, String_p, &Params_Set.Used_Font, Params_Set.Background_Color , Params_Set.Font_Color);
 	}else
 	{
-		LCD_DisplayString(0, Y_Index, Header, &Font12, WHITE, BLACK);
+		LCD_DisplayString(0, Y_Index, Text, &Params_Set.Used_Font, Params_Set.Background_Color , Params_Set.Font_Color);
 	}
 }
-	
+
+
+
+
