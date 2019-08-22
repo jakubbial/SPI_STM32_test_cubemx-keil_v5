@@ -1,19 +1,31 @@
-################ TO DO ################
+﻿################ TO DO ################
 
-• Increase timeout of SPI transmission. It is counted in ms. # Don't care
+• Increase timeout of SPI transmission. It is counted in ms.
+# Done. Doesn't matter.
 
 
 • Problem with transmission odserved during 8 <-> 16 bit switching.
 	Create separate branches:
 		- Workaround
 		- Solution
-	
+
 	Workaround:
 	- There is need to add function that can switch 2 byte  into 2 x 1 byte and then transmit as 8 bit
 	- Set transmission always as 8 bit mode
-	
 	Solution:
 	- Find out how transmission shoud look like. Check if there is need to have some dummy cycle etc.
 	- Go into HAL driver and try to use most basic operations to transmit data in two modes
+# Done. Cannot switch between byte and two byte transinnion mode without restarting SPI hw.
+
+• UART transission.
+	- Transission is done using usb cable. Port is localized there
+	- Sending new line mark should effect with response some defined message (e.g. "Creature")
+	- Using command I can change item list and its values
+	- There is mechanism that let in easy way to add new command that run new function
+	- Easy accessed and visibility connection between command <-> runned function
+	- There have to be set of commands that do speciffic things
+		○ Recieving command generates interrupt that saves recieved command and push order to stack
+		○ Switch structure in Main loop runs function that can interpret command and add pointer to stack
+		
 	
 	
