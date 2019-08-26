@@ -432,6 +432,11 @@
               <FileType>1</FileType>
               <FilePath>.\LCD_Menu.c</FilePath>
             </File>
+            <File>
+              <FileName>Queue.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\Queue.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
