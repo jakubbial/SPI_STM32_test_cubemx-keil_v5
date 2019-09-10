@@ -3,13 +3,18 @@
 
 
 struct Queue{
-	int *Item_array;
+	int *Item_array;		// Pointer to first array element
 	int First_item;
 	int Last_item;
-	int Current_item;
-	int *Current_item_p;
-	int Queue_size;
+	int Current_item;		// Index of current item in array
+	int *Current_item_p;	// Pointer to current item in array
+	int Queue_size;			// Size of array
 };
+
+void Print_array(struct Queue *Queue_name);
+void Print_var(int Variable, char Num_type);
+void Print_Queue(struct Queue *Queue_name);
+
 
 void Initialize_queue_struct(struct Queue *Queue_name, int Size)
 {
@@ -29,32 +34,81 @@ void Add_Queue_Item(struct Queue *Queue_name, int Item)
 		printf("Queue full");
 	} else
 	{
-		*((Queue_name->Item_array)+Queue_name->Current_item) = Item;
+		*(((Queue_name->Item_array)+Queue_name->Current_item)+1) = Item;
 		Queue_name->Current_item += 1;
 		Queue_name->Current_item_p = Queue_name->Item_array + Queue_name->Current_item;
 	}
+}
+
+int Dequeue_element(struct Queue *Queue_name)
+{
+	int Value = *Queue_name->Current_item_p;
+	*Queue_name->Current_item_p = 0;
+	Queue_name->Current_item -= 1;
+	Queue_name->Current_item_p = Queue_name->Item_array + Queue_name->Current_item;
+	return Value;
 }
 
 
 
 main()
 {
-	struct Queue Kju1;
-	Initialize_queue_struct(&Kju1, 10);	
-	Add_Queue_Item(&Kju1, 5);
-	Add_Queue_Item(&Kju1, 8);
-	Add_Queue_Item(&Kju1, 55);
-	printf("First item: %d\nLast item: %d\nCurrent item: %d\nCurrent item pointer: %x\nFirst element pointer: %x\nCurrent item value: %d\n",
-		    Kju1.First_item, Kju1.Last_item, Kju1.Current_item, Kju1.Current_item_p, Kju1.Item_array, *(Kju1.Current_item_p-1));
-	int i;    
-	for(i = 0; i < 10; i++)
-	{
-		printf("Element number %d: %d, %x\n", i, *(Kju1.Item_array+i), Kju1.Item_array+i);
-	}
+	struct Queue Kju;
+	struct Queue *Kju_p = &Kju;
+	int Dequeued_element;
+	
+	Initialize_queue_struct(Kju_p, 10);	
+	
+	Add_Queue_Item(Kju_p, 5);
+	Add_Queue_Item(Kju_p, 15);
+	Add_Queue_Item(Kju_p, 8);
+	Add_Queue_Item(Kju_p, 55);
+	Add_Queue_Item(Kju_p, 18);
+	Add_Queue_Item(Kju_p, 97);
+	Print_array(Kju_p);
+	Print_Queue(Kju_p);
+
+	Dequeued_element = Dequeue_element(Kju_p);
+	Print_array(Kju_p);
+	Print_Queue(Kju_p);
+	
+	printf("\n");
+	Print_var(Dequeued_element, 'd');
 }
 
 
 
 
 
+void Print_array(struct Queue *Queue_name)
+{
+	int i;    
+	for(i = 0; i < 10; i++)
+	{
+		printf("\nElement number %d: %d, %x", i, *(Queue_name->Item_array+i), Queue_name->Item_array+i);
+	}
+}
+
+void Print_var(int Variable, char Num_type)
+{
+	if(Num_type == 'd')
+	{
+		printf("Value is: %d\n", Variable);
+	}else if(Num_type == 'h')
+	{
+		printf("Value is: %x\n", Variable);
+	}
+}
+
+void Print_Queue(struct Queue *Queue_name)
+{
+	printf("\n");
+	Print_var(Queue_name->Current_item, 'd');
+	Print_var(Queue_name->Current_item_p, 'h');
+	Print_var(*Queue_name->Current_item_p, 'd');
+	Print_var(Queue_name->First_item, 'd');
+	Print_var(Queue_name->Item_array, 'h');
+	Print_var(Queue_name->Last_item, 'd');
+	Print_var(Queue_name->Queue_size, 'd');
+}
 
