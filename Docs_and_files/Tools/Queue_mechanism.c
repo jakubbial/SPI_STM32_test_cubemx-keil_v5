@@ -27,29 +27,41 @@ void Initialize_queue_struct(struct Queue *Queue_name, int Size)
 	Queue_name->Last_item = Size;
 }
 
-void Add_Queue_Item(struct Queue *Queue_name, int Item)
+int Add_Queue_Item(struct Queue *Queue_name, int Item)
 {
-	if(Queue_name->Current_item >= Queue_name->Queue_size)
+	int status;
+	if(Queue_name->Current_item >= ((Queue_name->Queue_size)-1))
 	{
 		printf("Queue full");
+		status = -1;
 	} else
 	{
 		*(((Queue_name->Item_array)+Queue_name->Current_item)+1) = Item;
 		Queue_name->Current_item += 1;
 		Queue_name->Current_item_p = Queue_name->Item_array + Queue_name->Current_item;
+		status = 1;
 	}
+	return status;
 }
 
 int Dequeue_element(struct Queue *Queue_name)
 {
 	int Value = *Queue_name->Current_item_p;
-	*Queue_name->Current_item_p = 0;
-	Queue_name->Current_item -= 1;
-	Queue_name->Current_item_p = Queue_name->Item_array + Queue_name->Current_item;
+	
+	if(Queue_name->Current_item > 0)
+	{
+		*Queue_name->Current_item_p = 0;
+		Queue_name->Current_item -= 1;
+		Queue_name->Current_item_p = Queue_name->Item_array + Queue_name->Current_item;		
+	}
+	
 	return Value;
 }
 
-
+void Destroy_q(struct Queue *Queue_name)
+{
+	free(Queue_name);
+}
 
 main()
 {
@@ -58,22 +70,19 @@ main()
 	int Dequeued_element;
 	
 	Initialize_queue_struct(Kju_p, 10);	
-	
 	Add_Queue_Item(Kju_p, 5);
-	Add_Queue_Item(Kju_p, 15);
-	Add_Queue_Item(Kju_p, 8);
-	Add_Queue_Item(Kju_p, 55);
-	Add_Queue_Item(Kju_p, 18);
-	Add_Queue_Item(Kju_p, 97);
+	Add_Queue_Item(Kju_p, 5);
+	Add_Queue_Item(Kju_p, 5);
+	Add_Queue_Item(Kju_p, 50);
 	Print_array(Kju_p);
 	Print_Queue(Kju_p);
 
 	Dequeued_element = Dequeue_element(Kju_p);
 	Print_array(Kju_p);
 	Print_Queue(Kju_p);
-	
 	printf("\n");
 	Print_var(Dequeued_element, 'd');
+	Destroy_q(Kju_p);
 }
 
 

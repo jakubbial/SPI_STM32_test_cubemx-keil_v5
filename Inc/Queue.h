@@ -18,14 +18,11 @@
   */
 	#include "main.h"
 	
-	struct Queue{
-		char Queue_Name;
-		uint16_t Elements[1];
-		uint8_t First_Element, Last_Element;
-	};
-	
-	struct Queue_Item {
-		char Name;
-		uint16_t Number;
-	};
-  
+struct Queue{
+	uint8_t *Item_array;		// Pointer to first array element
+	uint8_t First_item;
+	uint8_t Last_item;
+	uint8_t Current_item;		// Index of current item in array
+	uint8_t *Current_item_p;	// Pointer to current item in array
+	uint8_t Queue_size;			// Size of array
+};

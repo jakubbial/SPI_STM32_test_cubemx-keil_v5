@@ -1,22 +1,67 @@
 /**
   ******************************************************************************
-  * File Name          : USART.c
-  * Description        : This file provides code for the configuration
-  *                      of the USART instances.
+  * File Name          : 
+  * Description        : 
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
-
+	
+#include <stdlib.h>
 #include "Queue.h"
+
+void Initialize_queue_struct(struct Queue *Queue_name, uint8_t Size)
+{
+	Queue_name->Item_array = NULL;
+	Queue_name->Queue_size = Size;
+	Queue_name->Item_array = (uint8_t *)calloc(Size, sizeof(uint8_t));
+	Queue_name->Current_item = 0;
+	Queue_name->Current_item_p = NULL;
+	Queue_name->First_item = 0;
+	Queue_name->Last_item = Size;
+}
+
+
+uint8_t Add_Queue_Item(struct Queue *Queue_name, uint8_t Item)
+{
+	uint8_t status;
+	if(Queue_name->Current_item >= ((Queue_name->Queue_size)-1))
+	{
+		status = 0;
+	} else
+	{
+		*(((Queue_name->Item_array)+Queue_name->Current_item)+1) = Item;
+		Queue_name->Current_item += 1;
+		Queue_name->Current_item_p = Queue_name->Item_array + Queue_name->Current_item;
+		status = 1;
+	}
+	return status;
+}
+
+
+uint8_t Dequeue_element(struct Queue *Queue_name)
+{
+	uint8_t Value = *Queue_name->Current_item_p;
+	
+	if(Queue_name->Current_item > 0)
+	{
+		*Queue_name->Current_item_p = 0;
+		Queue_name->Current_item -= 1;
+		Queue_name->Current_item_p = Queue_name->Item_array + Queue_name->Current_item;		
+	}
+	return Value;
+}
+
+
+void Destroy_queue(struct Queue *Queue_name)
+{
+	free(Queue_name);
+}
+
+
+
+
 
 
