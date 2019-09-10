@@ -28,6 +28,7 @@
 /* USER CODE BEGIN Includes */
 #include "LCD_Tools.h"
 #include "LCD_Menu.h"
+#include "Queue.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -98,22 +99,43 @@ int main(void)
 	//LCD_Features_Selftest();
 	Fill_display(BLACK);
 	Fulfill_list();
+	
+	//LCD_Create_Item(
+	
+	//ROBIENIE KOLEJI
+	struct Queue Koleja;
+	struct Queue *Koleja_p = &Koleja;
+	Initialize_queue_struct(Koleja_p, 10);
+	Add_Queue_Item(Koleja_p, 1);
+	Add_Queue_Item(Koleja_p, 2);
+	Add_Queue_Item(Koleja_p, 3);
+	//
 
-	uint32_t Temp = 0, Temp2=34;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		Change_Item_Value(3, Temp);
-		Temp++;
-		HAL_Delay(500);
-		Change_Item_Value(7, Temp2);
-		Temp2--;
-		HAL_Delay(500);
+		uint8_t Item;
+		Item = Dequeue_element(Koleja_p);
+		switch(Item)
+		{
+			case 0:
+				break;
+			case 1:
+				Change_Item_Value(1, 100);
+				break;
+			case 2:
+				Change_Item_Value(2, 200);
+				break;
+			case 3:
+				Change_Item_Value(3, 300);
+				break;
+		}
+		
 
-		//LCD_Features_Selftest();
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
