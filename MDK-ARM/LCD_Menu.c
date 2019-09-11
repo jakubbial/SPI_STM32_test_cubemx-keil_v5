@@ -24,7 +24,8 @@ struct Item Item_List[LIST_LENGTH] = {{'R', "Item I", 		1},
 																			{'R', "Item VII", 	7},
 																			{'R', "Item VIII", 	8},
 																			{'R', "Item IX", 		9},
-																			{'R', "Item X", 		10}};
+																			{'R', "Item X", 		1},
+																			{'R', "Item new",		1}};
 
 
 struct Item_Params Header_Item, Regular_Item;
@@ -77,5 +78,6 @@ void Change_Item_Value(uint8_t Item_Number, uint32_t New_Val)
 void Change_Item_Name(uint8_t Item_Number, char* Text)
 {
 	Item_List[Item_Number].Text = Text;
-	Update_Item_Value(Item_Number);
+	//Update_Item_Value(Item_Number);
+	LCD_Create_Item_Using_Struct(Item_List[Item_Number], Item_Number+1);
 }

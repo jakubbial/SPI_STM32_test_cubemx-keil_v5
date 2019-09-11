@@ -1,7 +1,7 @@
 #include "main.h"
 
 
-#define LIST_LENGTH 10
+#define LIST_LENGTH 11
 
 struct Item
 {

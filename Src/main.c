@@ -109,25 +109,29 @@ int main(void)
 	Add_Queue_Item(Koleja_p, 1);
 	Add_Queue_Item(Koleja_p, 2);
 	Add_Queue_Item(Koleja_p, 3);
-	Change_Item_Name(9, "Item ind");
-	Change_Item_Name(10, "i");
+	
+	Change_Item_Name(8, "Item ind");
+	Change_Item_Name(9, "i");
+	Change_Item_Name(10, "Ind val");
 
-
+	uint8_t Item;
+	uint8_t i =0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		uint8_t Item;
-		uint8_t i =0;
+
+		uint8_t sprrt = Koleja_p->Current_item_value;
 		
 		Item = Dequeue_element(Koleja_p);
 		
-		Change_Item_Value(9, (uint8_t)Item);
-		Change_Item_Value(10, i);
+		Change_Item_Value(8, Item);
+		Change_Item_Value(9, i);
+		Change_Item_Value(10, sprrt);
 		
-		HAL_Delay(500);
+		HAL_Delay(1000);
 		
 		switch(Item)
 		{
@@ -145,6 +149,7 @@ int main(void)
 				break;
 		}
 		
+		i++;
 
 
     /* USER CODE END WHILE */
