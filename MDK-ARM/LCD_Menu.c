@@ -14,9 +14,7 @@
 #include "LCD_Menu.h"
 #include "LCD_Tools.h"
 
-
-struct Item_Params Header_Item, Regular_Item;
-
+/* Array of default items that are displayed */
 struct Item Item_List[LIST_LENGTH] = {{'R', "Item I", 		1},
 																			{'R', "Item II", 		2},
 																			{'R', "Item III", 	3},
@@ -28,6 +26,10 @@ struct Item Item_List[LIST_LENGTH] = {{'R', "Item I", 		1},
 																			{'R', "Item IX", 		9},
 																			{'R', "Item X", 		10}};
 
+
+struct Item_Params Header_Item, Regular_Item;
+
+																			
 void Prepare_item_parameters(void)
 {
 	Set_Item_Params(&Header_Item, Font20, WHITE, BLACK);
@@ -69,5 +71,11 @@ void Update_Item_Value(uint8_t Item_Number)
 void Change_Item_Value(uint8_t Item_Number, uint32_t New_Val)
 {
 	Item_List[Item_Number].Value = New_Val;
+	Update_Item_Value(Item_Number);
+}
+
+void Change_Item_Name(uint8_t Item_Number, char* Text)
+{
+	Item_List[Item_Number].Text = Text;
 	Update_Item_Value(Item_Number);
 }

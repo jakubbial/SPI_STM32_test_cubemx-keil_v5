@@ -109,7 +109,9 @@ int main(void)
 	Add_Queue_Item(Koleja_p, 1);
 	Add_Queue_Item(Koleja_p, 2);
 	Add_Queue_Item(Koleja_p, 3);
-	//
+	Change_Item_Name(9, "Item ind");
+	Change_Item_Name(10, "i");
+
 
   /* USER CODE END 2 */
 
@@ -118,12 +120,21 @@ int main(void)
   while (1)
   {
 		uint8_t Item;
+		uint8_t i =0;
+		
 		Item = Dequeue_element(Koleja_p);
+		
+		Change_Item_Value(9, (uint8_t)Item);
+		Change_Item_Value(10, i);
+		
+		HAL_Delay(500);
+		
 		switch(Item)
 		{
 			case 0:
 				break;
 			case 1:
+				Change_Item_Name(1, "Case 1");
 				Change_Item_Value(1, 100);
 				break;
 			case 2:
