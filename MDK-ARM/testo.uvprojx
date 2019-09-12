@@ -428,14 +428,39 @@
               <FilePath>../Src/stm32l1xx_hal_msp.c</FilePath>
             </File>
             <File>
-              <FileName>LCD_Menu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\LCD_Menu.c</FilePath>
-            </File>
-            <File>
               <FileName>Queue.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\Queue.c</FilePath>
+            </File>
+            <File>
+              <FileName>LCD_Menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\LCD_Menu.c</FilePath>
+            </File>
+            <File>
+              <FileName>font8.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\Fonts\font8.c</FilePath>
+            </File>
+            <File>
+              <FileName>font12.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\Fonts\font12.c</FilePath>
+            </File>
+            <File>
+              <FileName>font16.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\Fonts\font16.c</FilePath>
+            </File>
+            <File>
+              <FileName>font20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\Fonts\font20.c</FilePath>
+            </File>
+            <File>
+              <FileName>font24.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\Fonts\font24.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -526,41 +551,6 @@
               <FileName>system_stm32l1xx.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/system_stm32l1xx.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Users/Fonts</GroupName>
-          <Files>
-            <File>
-              <FileName>font8.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Users\Fonts\font8.c</FilePath>
-            </File>
-            <File>
-              <FileName>font12.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Users\Fonts\font12.c</FilePath>
-            </File>
-            <File>
-              <FileName>font16.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Users\Fonts\font16.c</FilePath>
-            </File>
-            <File>
-              <FileName>font20.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Users\Fonts\font20.c</FilePath>
-            </File>
-            <File>
-              <FileName>font24.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Users\Fonts\font24.c</FilePath>
-            </File>
-            <File>
-              <FileName>fonts.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Users\Fonts\fonts.h</FilePath>
             </File>
           </Files>
         </Group>
