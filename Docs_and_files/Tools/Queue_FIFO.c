@@ -56,14 +56,15 @@ int Add_element(Queue_data *Queue_name, int Element)
 	
 	if(Queue_name->Space_left != 0)
 	{
-		
 		*(Queue_name->Next_element) = Element;
 		
-		if(Queue_name->Space_left != 1)
+		if (Queue_name->Next_element == Queue_name->Last_element)
+		{
+			Queue_name->Next_element = Queue_name->First_array_element;
+		}else
 		{
 			Queue_name->Next_element += 1;
 		}
-		
 		Queue_name->Space_left -= 1;
 		Operation_status = 1;
 	}else
@@ -85,16 +86,21 @@ int Dequeue_element(Queue_data *Queue_name)
 		Element = *Queue_name->Current_element;
 		*Queue_name->Current_element = 0;
 		Queue_name->Space_left += 1;
-		Queue_name->Current_element += 1;
+		if(Queue_name->Current_element == Queue_name->Last_element)
+		{
+			Queue_name->Current_element = Queue_name->First_array_element;
+		}else
+		{
+			Queue_name->Current_element += 1;
+		}
 	}
-
 }
 
 
 main()
 {
 	Queue_data *Koleja = Initialize_queue(5);
-	char Decision = NULL;
+	char Decision = 0;
 	
 	
 	while(1)
@@ -158,19 +164,19 @@ void Print_Queue(Queue_data *Queue_name)
 	int i;
 	int Queue_size = Queue_name->Array_size;
 	int *First_element = Queue_name->First_array_element;
-	int Elements_to_print = Queue_size+2;
+	int Elements_to_print = Queue_size+1;
 	
 	
 	printf("Addr: ");
 	for(i=-1; i < Elements_to_print; i++)
 	{
-		printf("%16x ", First_element+i);
+		printf("%9x ", First_element+i);
 	}
 	
 	printf("\nValu: ");
 	for(i=-1; i < Elements_to_print; i++)
 	{
-		printf("%16d ", *(First_element+i));
+		printf("%9d ", *(First_element+i));
 	}
 	
 	printf("\nCurr: ");
@@ -178,10 +184,10 @@ void Print_Queue(Queue_data *Queue_name)
 	{
 		if(Queue_name->Current_element == (First_element+i))
 		{
-			printf("%16d ", 1);
+			printf("%9d ", 1);
 		}else
 		{
-			printf("%16d ", 0);
+			printf("%9d ", 0);
 		}
 	}
 	
@@ -190,10 +196,10 @@ void Print_Queue(Queue_data *Queue_name)
 	{
 		if(Queue_name->Next_element == (First_element+i))
 		{
-			printf("%16d ", 1);
+			printf("%9d ", 1);
 		}else
 		{
-			printf("%16d ", 0);
+			printf("%9d ", 0);
 		}
 	}
 	
