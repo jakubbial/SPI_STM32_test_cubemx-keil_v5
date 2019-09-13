@@ -24,4 +24,4 @@ struct Stack{
 void Initialize_stack_struct(struct Stack *Stack_name, uint8_t Size);
 uint8_t Add_stack_item(struct Stack *Stack_name, uint8_t Item);
 uint8_t Take_element(struct Stack *Stack_name);
-void Destroy_queue(struct Stack *Stack_name);
+void Destroy_Stack(struct Stack *Stack_name);

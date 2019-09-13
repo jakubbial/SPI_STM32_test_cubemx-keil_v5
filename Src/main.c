@@ -97,22 +97,18 @@ int main(void)
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
 	LCD_Init();
-	//LCD_Features_Selftest();
 	Fill_display(BLACK);
 	Fulfill_list();
 	
+	Change_Item_Name(8, "Item:");
+	Change_Item_Name(9, "i:");
+	Change_Item_Name(10, "Space left:");	
 	
 	//ROBIENIE KOLEJI
-	struct Stack Koleja;
-	struct Stack *Koleja_p = &Koleja;
-	Initialize_stack_struct(Koleja_p, 10);
-	Add_stack_item(Koleja_p, 1);
-	Add_stack_item(Koleja_p, 2);
-	Add_stack_item(Koleja_p, 3);
-	
-	Change_Item_Name(8, "Item ind");
-	Change_Item_Name(9, "i");
-	Change_Item_Name(10, "Ind val");
+	Queue_data* Koleja = Initialize_queue(10);
+	Add_element(Koleja, 1);
+	Add_element(Koleja, 2);
+	Add_element(Koleja, 3);
 
 	uint8_t Item;
 	uint8_t i =0;
@@ -122,14 +118,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
-		uint8_t sprrt = Koleja_p->Current_item_value;
-		
-		Item = Take_element(Koleja_p);
+		Item = Dequeue_element(Koleja);
 		
 		Change_Item_Value(8, Item);
 		Change_Item_Value(9, i);
-		Change_Item_Value(10, sprrt);
+		Change_Item_Value(10, Koleja->Space_left);
 		
 		HAL_Delay(1000);
 		
@@ -142,15 +135,16 @@ int main(void)
 				Change_Item_Value(1, 100);
 				break;
 			case 2:
+				Change_Item_Name(2, "Case 2");
 				Change_Item_Value(2, 200);
 				break;
 			case 3:
+				Change_Item_Name(3, "Case 3");
 				Change_Item_Value(3, 300);
 				break;
 		}
 		
 		i++;
-
 
     /* USER CODE END WHILE */
 

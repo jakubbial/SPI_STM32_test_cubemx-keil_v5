@@ -58,7 +58,7 @@ uint8_t Take_element(struct Stack *Stack_name)
 }
 
 
-void Destroy_queue(struct Stack *Stack_name)
+void Destroy_Stack(struct Stack *Stack_name)
 {
 	free(Stack_name);
 }

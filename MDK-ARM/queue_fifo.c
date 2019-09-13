@@ -5,6 +5,16 @@
   ******************************************************************************
   * @attention
 	*
+	* This file contains functions needed to operate with FIFO queue
+	* 	• Initialize_queue function 
+	*			- Allocates space in memory for queue structure
+	*			- Allocates space in memory for array that contains queue items
+	*			- Initializes queue pointers and variables
+	*		• Destroy_queue function
+	*			-	It destroys array with items and then destroys queue struct using free()
+	*		• Add_element function
+	*		•	Dequeue_element
+	*
   ******************************************************************************
   */
 
@@ -16,19 +26,12 @@
 // Returns pointer to created structure.
 Queue_data* Initialize_queue(uint8_t Queue_size)
 {
-	// Allocate memory for struct
 	Queue_data *Queue_p = (Queue_data*)malloc(sizeof(Queue_data));
-	// Assign queue size
 	Queue_p->Array_size = Queue_size;
-	// Allocate memory for array that is speciffied size
-	Queue_p->First_array_element = (int*)calloc(Queue_size, sizeof(int));
-	// Current item is first element
+	Queue_p->First_array_element = (uint8_t*)calloc(Queue_size, sizeof(uint8_t));
 	Queue_p->Current_element=Queue_p->First_array_element;
-	// Next element is also current item
 	Queue_p->Next_element = Queue_p->First_array_element;
-	// All queue is free
 	Queue_p->Space_left = Queue_p->Array_size;
-	// Define pointer for last item
 	Queue_p->Last_element = Queue_p->First_array_element + ((Queue_p->Array_size) - 1);
 	
 	return Queue_p;
@@ -43,7 +46,7 @@ void Destroy_Queue(Queue_data *Queue_name)
 }
 
 
-int Add_element(Queue_data *Queue_name, uint8_t Element)
+uint8_t Add_element(Queue_data *Queue_name, uint8_t Element)
 {
 	uint8_t Operation_status;
 	
