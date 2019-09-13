@@ -28,7 +28,8 @@
 /* USER CODE BEGIN Includes */
 #include "LCD_Tools.h"
 #include "LCD_Menu.h"
-#include "Queue.h"
+#include "stack_mechanism.h"
+#include "queue_fifo.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -100,15 +101,14 @@ int main(void)
 	Fill_display(BLACK);
 	Fulfill_list();
 	
-	//LCD_Create_Item(
 	
 	//ROBIENIE KOLEJI
-	struct Queue Koleja;
-	struct Queue *Koleja_p = &Koleja;
-	Initialize_queue_struct(Koleja_p, 10);
-	Add_Queue_Item(Koleja_p, 1);
-	Add_Queue_Item(Koleja_p, 2);
-	Add_Queue_Item(Koleja_p, 3);
+	struct Stack Koleja;
+	struct Stack *Koleja_p = &Koleja;
+	Initialize_stack_struct(Koleja_p, 10);
+	Add_stack_item(Koleja_p, 1);
+	Add_stack_item(Koleja_p, 2);
+	Add_stack_item(Koleja_p, 3);
 	
 	Change_Item_Name(8, "Item ind");
 	Change_Item_Name(9, "i");
@@ -125,7 +125,7 @@ int main(void)
 
 		uint8_t sprrt = Koleja_p->Current_item_value;
 		
-		Item = Dequeue_element(Koleja_p);
+		Item = Take_element(Koleja_p);
 		
 		Change_Item_Value(8, Item);
 		Change_Item_Value(9, i);

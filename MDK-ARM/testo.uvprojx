@@ -428,11 +428,6 @@
               <FilePath>../Src/stm32l1xx_hal_msp.c</FilePath>
             </File>
             <File>
-              <FileName>Queue.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\Queue.c</FilePath>
-            </File>
-            <File>
               <FileName>LCD_Menu.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\LCD_Menu.c</FilePath>
@@ -461,6 +456,16 @@
               <FileName>font24.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\Fonts\font24.c</FilePath>
+            </File>
+            <File>
+              <FileName>stack_mechanism.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\stack_mechanism.c</FilePath>
+            </File>
+            <File>
+              <FileName>queue_fifo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\queue_fifo.c</FilePath>
             </File>
           </Files>
         </Group>

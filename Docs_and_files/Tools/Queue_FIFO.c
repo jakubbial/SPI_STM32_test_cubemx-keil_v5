@@ -52,8 +52,6 @@ int Add_element(Queue_data *Queue_name, int Element)
 {
 	int Operation_status;
 	
-	//printf("Space left: %d\n", Queue_name->Space_left);
-	
 	if(Queue_name->Space_left != 0)
 	{
 		*(Queue_name->Next_element) = Element;
@@ -94,6 +92,7 @@ int Dequeue_element(Queue_data *Queue_name)
 			Queue_name->Current_element += 1;
 		}
 	}
+	return Element;
 }
 
 
@@ -101,6 +100,7 @@ main()
 {
 	Queue_data *Koleja = Initialize_queue(5);
 	char Decision = 0;
+	int Deququed;
 	
 	
 	while(1)
@@ -113,13 +113,17 @@ main()
 			case 'A':
 				{
 					Add_element(Koleja, 150);
+					system("cls");
 					Print_Queue(Koleja);
 					break;
 				}
 			case 'D':
 				{
-					Dequeue_element(Koleja);
+					Deququed = Dequeue_element(Koleja);
+					system("cls");
 					Print_Queue(Koleja);
+					printf("\nDequeued element: %d\n", Deququed);
+					
 					break;
 				}
 			default:
@@ -132,7 +136,6 @@ main()
 		{
 			break;
 		}
-		printf("Last: %8x\n", Koleja->Last_element );
 	}
 	
 	
