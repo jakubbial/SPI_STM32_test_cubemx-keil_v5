@@ -50,13 +50,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+	Queue_data* Koleja;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -100,18 +100,14 @@ int main(void)
 	Fill_display(BLACK);
 	Fulfill_list();
 	
-	Change_Item_Name(8, "Item:");
-	Change_Item_Name(9, "i:");
-	Change_Item_Name(10, "Space left:");	
+	Change_Item_Name(1, "Butt");	
+	Change_Item_Name(10, "Space left:");
 	
 	//ROBIENIE KOLEJI
-	Queue_data* Koleja = Initialize_queue(10);
-	Add_element(Koleja, 1);
-	Add_element(Koleja, 2);
-	Add_element(Koleja, 3);
-
+	Koleja = Initialize_queue(10);
 	uint8_t Item;
 	uint8_t i =0;
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -120,31 +116,23 @@ int main(void)
   {
 		Item = Dequeue_element(Koleja);
 		
-		Change_Item_Value(8, Item);
-		Change_Item_Value(9, i);
 		Change_Item_Value(10, Koleja->Space_left);
 		
-		HAL_Delay(1000);
+		//HAL_Delay(500);
 		
 		switch(Item)
 		{
 			case 0:
 				break;
 			case 1:
-				Change_Item_Name(1, "Case 1");
-				Change_Item_Value(1, 100);
 				break;
 			case 2:
-				Change_Item_Name(2, "Case 2");
-				Change_Item_Value(2, 200);
 				break;
 			case 3:
-				Change_Item_Name(3, "Case 3");
-				Change_Item_Value(3, 300);
+				i++;
+				Change_Item_Value(1, i);
 				break;
 		}
-		
-		i++;
 
     /* USER CODE END WHILE */
 
@@ -194,6 +182,14 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	if(GPIO_Pin == Button_Pin)
+	{
+		Add_element(Koleja, 3);
+	}
+}
+
 
 /* USER CODE END 4 */
 

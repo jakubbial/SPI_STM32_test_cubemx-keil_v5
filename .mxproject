@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=C:/02_Private_Files/Developement/C/02_test_mx/SPI_STM32_test_cubemx-keil_v5/Inc
+HeaderPath=C:/Develop/C/SPI_STM32_test_cubemx-keil_v5/Inc
 HeaderFiles=stm32l1xx_it.h;stm32l1xx_hal_conf.h;main.h;gpio.h;spi.h;usart.h;
-SourcePath=C:/02_Private_Files/Developement/C/02_test_mx/SPI_STM32_test_cubemx-keil_v5/Src
+SourcePath=C:/Develop/C/SPI_STM32_test_cubemx-keil_v5/Src
 SourceFiles=stm32l1xx_it.c;stm32l1xx_hal_msp.c;main.c;gpio.c;spi.c;usart.c;
 
 [PreviousLibFiles]
