@@ -88,10 +88,12 @@ void Set_current_time(uint8_t Hour, uint8_t Minute, uint8_t Second)
 	HAL_RTC_SetTime(&hrtc, &Current_time, 16);
 }
 
-void Get_current_time()
+uint8_t Get_current_time()
 {
 	HAL_RTC_GetTime(&hrtc, &Current_time, 16);
+	return Current_time.Seconds;
 }
+
 	
 /* USER CODE END 1 */
 

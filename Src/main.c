@@ -100,6 +100,7 @@ int main(void)
   MX_RTC_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+
 	LCD_Init();
 	Fill_display(BLACK);
 	Fulfill_list();
@@ -115,6 +116,9 @@ int main(void)
 	Koleja = Initialize_queue(10);
 	uint8_t Item;
 	uint8_t i =0;
+	uint8_t sec;
+	// Ustawianie RTCa
+	Set_current_time(5, 15, 30);
 	
   /* USER CODE END 2 */
 
@@ -131,6 +135,8 @@ int main(void)
 		switch(Item)
 		{
 			case 0:
+				sec = Get_current_time();
+				Change_Item_Value(5, sec);
 				break;
 			case 1:
 				break;
