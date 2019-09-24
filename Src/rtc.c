@@ -22,6 +22,7 @@
 
 /* USER CODE BEGIN 0 */
 RTC_TimeTypeDef Current_time;
+RTC_DateTypeDef Current_Date;
 
 /* USER CODE END 0 */
 
@@ -85,13 +86,14 @@ void Set_current_time(uint8_t Hour, uint8_t Minute, uint8_t Second)
 	Current_time.Hours = Hour;
 	Current_time.Minutes = Minute;
 	Current_time.Seconds = Second;
-	HAL_RTC_SetTime(&hrtc, &Current_time, 16);
+	HAL_RTC_SetTime(&hrtc, &Current_time, RTC_FORMAT_BIN);
 }
 
-uint8_t Get_current_time()
+RTC_TimeTypeDef Get_current_time()
 {
-	HAL_RTC_GetTime(&hrtc, &Current_time, 16);
-	return Current_time.Seconds;
+	HAL_RTC_GetTime(&hrtc, &Current_time, RTC_FORMAT_BIN);
+	HAL_RTC_GetDate(&hrtc, &Current_Date, RTC_FORMAT_BIN);
+	return Current_time;
 }
 
 	

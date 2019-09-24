@@ -40,7 +40,7 @@ void MX_RTC_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 void Set_current_time(uint8_t Hour, uint8_t Minute, uint8_t Second);
-uint8_t Get_current_time(void);
+RTC_TimeTypeDef Get_current_time(void);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

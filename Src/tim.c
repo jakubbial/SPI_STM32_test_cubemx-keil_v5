@@ -73,7 +73,6 @@ void MX_TIM2_Init(void)
   {
     Error_Handler();
   }
-
 }
 
 void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
@@ -133,7 +132,10 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 } 
 
 /* USER CODE BEGIN 1 */
-
+void Start_timer(void)
+{
+	HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_1);
+}
 /* USER CODE END 1 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

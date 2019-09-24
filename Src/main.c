@@ -104,21 +104,21 @@ int main(void)
 	LCD_Init();
 	Fill_display(BLACK);
 	Fulfill_list();
-	Set_current_time(10, 38, 10);
+	Start_timer();
 	
-	Change_Item_Name(1, "Butt");	
-	Change_Item_Name(3, "Hour");
-	Change_Item_Name(4, "Min");
-	Change_Item_Name(5, "Sec");
+	Change_Item_Name(0, "Butt");	
+	Change_Item_Name(1, "Hour");
+	Change_Item_Name(2, "Min");
+	Change_Item_Name(3, "Sec");
 	Change_Item_Name(10, "Space left:");
 	
 	//ROBIENIE KOLEJI
 	Koleja = Initialize_queue(10);
 	uint8_t Item;
-	uint8_t i =0;
-	uint8_t sec;
+	uint8_t i =0, j=0;
+	RTC_TimeTypeDef time;
 	// Ustawianie RTCa
-	Set_current_time(5, 15, 30);
+	Set_current_time(23, 18, 30);
 	
   /* USER CODE END 2 */
 
@@ -135,8 +135,11 @@ int main(void)
 		switch(Item)
 		{
 			case 0:
-				sec = Get_current_time();
-				Change_Item_Value(5, sec);
+				time = Get_current_time();
+				//Change_Item_Value(7, j);
+				Change_Item_Value(1, time.Hours);
+				Change_Item_Value(2, time.Minutes);
+				Change_Item_Value(3, time.Seconds);
 				break;
 			case 1:
 				break;
@@ -144,10 +147,10 @@ int main(void)
 				break;
 			case 3:
 				i++;
-				Change_Item_Value(1, i);
+				Change_Item_Value(0, i);
 				break;
 		}
-
+		j++;
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
