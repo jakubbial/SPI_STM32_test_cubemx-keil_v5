@@ -211,9 +211,12 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 	if(GPIO_Pin == Button_Pin)
 	{
+		// dodaj wykonanie stanu 3 do kolejki
 		Add_element(Koleja, 3);
 	}
 }
+
+
 /*
 void Update_time();
 {
