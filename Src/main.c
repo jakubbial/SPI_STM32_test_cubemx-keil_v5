@@ -98,13 +98,18 @@ int main(void)
   MX_USART1_UART_Init();
   MX_SPI2_Init();
   MX_RTC_Init();
-  MX_TIM2_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
 
 	LCD_Init();
 	Fill_display(BLACK);
 	Fulfill_list();
 	Start_timer();
+	HAL_Delay(500);
+	Stop_timer();
+	uint16_t *kole=0x40001024;
+	uint32_t timer;
+	timer = *kole;
 	
 	Change_Item_Name(0, "Butt");	
 	Change_Item_Name(1, "Hour");

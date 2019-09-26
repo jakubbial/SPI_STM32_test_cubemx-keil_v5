@@ -55,7 +55,7 @@ void HAL_RTC_MspInit(RTC_HandleTypeDef* rtcHandle)
   {
   /* USER CODE BEGIN RTC_MspInit 0 */
 
-	/* USER CODE END RTC_MspInit 0 */
+  /* USER CODE END RTC_MspInit 0 */
     /* RTC clock enable */
     __HAL_RCC_RTC_ENABLE();
   /* USER CODE BEGIN RTC_MspInit 1 */
