@@ -42,6 +42,7 @@ void MX_GPIO_Init(void);
 void DC_Pin(uint8_t State);
 void CS_Pin(uint8_t State);
 void RESX_Pin(uint8_t State);
+void Toggle_Led(void);
 
 /* USER CODE END Prototypes */
 

@@ -54,6 +54,12 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(Button_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : PtPin */
+  GPIO_InitStruct.Pin = Timer_trigger_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(Timer_trigger_GPIO_Port, &GPIO_InitStruct);
+
   /*Configure GPIO pins : PCPin PCPin PCPin */
   GPIO_InitStruct.Pin = Output_1_Pin|Output_2_Pin|SPI2_RESX_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -71,6 +77,9 @@ void MX_GPIO_Init(void)
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI0_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI0_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI1_IRQn);
 
 }
 
@@ -110,6 +119,11 @@ void RESX_Pin(uint8_t State)
 	{
 		HAL_GPIO_WritePin(SPI2_RESX_GPIO_Port, SPI2_RESX_Pin, GPIO_PIN_RESET);
 	}
+}
+
+void Toggle_Led(void)
+{
+	HAL_GPIO_TogglePin(GPIOB, LED_Blue_Pin);
 }
 
 /* USER CODE END 2 */

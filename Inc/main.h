@@ -61,6 +61,9 @@ void Error_Handler(void);
 #define Button_Pin GPIO_PIN_0
 #define Button_GPIO_Port GPIOA
 #define Button_EXTI_IRQn EXTI0_IRQn
+#define Timer_trigger_Pin GPIO_PIN_1
+#define Timer_trigger_GPIO_Port GPIOA
+#define Timer_trigger_EXTI_IRQn EXTI1_IRQn
 #define Output_1_Pin GPIO_PIN_4
 #define Output_1_GPIO_Port GPIOC
 #define Output_2_Pin GPIO_PIN_5

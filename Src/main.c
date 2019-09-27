@@ -110,6 +110,7 @@ int main(void)
 	uintptr_t *timer7_register = (uintptr_t*)malloc(4);
 	*timer7_register = 0x40001024;
 	uint32_t timer_val;
+	uint8_t timer_flag = 0;
 	
 
 		
@@ -156,14 +157,24 @@ int main(void)
 			case 3:
 				i++;
 				Change_Item_Value(0, i);
-			
-				Start_timer();
-				HAL_Delay(50);
-				Stop_timer();
-				timer_val = Get_Timer_val();
-				Change_Item_Value(4, timer_val);
-				Reset_timer();
-				*timer7_register = 0;
+				break;
+			case 4:
+				i++;
+				Change_Item_Value(0, i);
+				Toggle_Led();
+				if(timer_flag == 0)
+				{
+					Start_timer();
+					timer_flag = 1;
+				} 
+				else if (timer_flag == 1)
+				{
+					Stop_timer();
+					timer_val = Get_Timer_val();
+					Change_Item_Value(4, timer_val);
+					Reset_timer();
+					timer_flag = 0;
+				}
 				break;
 		}
 		j++;
@@ -228,7 +239,12 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	if(GPIO_Pin == Button_Pin)
 	{
 		// dodaj wykonanie stanu 3 do kolejki
-		Add_element(Koleja, 3);
+		Add_element(Koleja, 4);
+	}
+	if(GPIO_Pin == Timer_trigger_Pin)
+	{
+		Toggle_Led();
+		Add_element(Koleja, 4);
 	}
 }
 
