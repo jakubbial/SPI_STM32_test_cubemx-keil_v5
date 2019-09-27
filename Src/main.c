@@ -28,6 +28,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdlib.h>
 #include "LCD_Tools.h"
 #include "LCD_Menu.h"
 #include "stack_mechanism.h"
@@ -104,19 +105,21 @@ int main(void)
 	LCD_Init();
 	Fill_display(BLACK);
 	Fulfill_list();
-	Start_timer();
-	HAL_Delay(500);
-	Stop_timer();
-	uint16_t *kole=0x40001024;
-	uint32_t timer;
-	timer = *kole;
+
 	
+	uint32_t *timer7_register = (uint32_t*)malloc(4);
+	*timer7_register = 0x40001024;
+	uint32_t timer_val;
+	
+
+		
 	Change_Item_Name(0, "Butt");	
 	Change_Item_Name(1, "Hour");
 	Change_Item_Name(2, "Min");
 	Change_Item_Name(3, "Sec");
+	Change_Item_Name(4, "Timer");
 	Change_Item_Name(10, "Space left:");
-	
+		
 	//ROBIENIE KOLEJI
 	Koleja = Initialize_queue(10);
 	uint8_t Item;
@@ -153,6 +156,12 @@ int main(void)
 			case 3:
 				i++;
 				Change_Item_Value(0, i);
+			
+				Start_timer();
+				HAL_Delay(500);
+				Stop_timer();
+				timer_val = *timer7_register;
+				Change_Item_Value(4, timer_val);
 				break;
 		}
 		j++;

@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
+#define uint32_t int
 
 
 main()
 {
-	int var = 0;
-	int *var_p = &var;
-	printf("Var: %d, Var_p: %x\n", var, var_p);
-	*var_p = 0x01111111;
-	printf("Var: %d, Var_p: %x\n", var, var_p);
+	uint32_t *timer7_register = (uint32_t *)malloc(4);
+	*timer7_register = 0x40001024;
+			
+	printf("timer_reg_p: %x\n", *timer7_register);
+	printf("timer_reg_p: %x\n", timer7_register);
 }
 
