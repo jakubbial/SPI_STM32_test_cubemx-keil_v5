@@ -32,7 +32,7 @@ void MX_TIM6_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig = {0};
 
   htim6.Instance = TIM6;
-  htim6.Init.Prescaler = 32;
+  htim6.Init.Prescaler = 32000;
   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim6.Init.Period = 5000;
   htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -90,6 +90,17 @@ void Start_timer(void)
 void Stop_timer(void)
 {
 	HAL_TIM_IC_Stop_IT(&htim6, TIM_CHANNEL_1); //Channel_1 - PA5
+}
+
+uint32_t Get_Timer_val()
+{
+	uint32_t val = __HAL_TIM_GET_COUNTER(&htim6);
+	return val;
+}
+
+void Reset_timer(void)
+{
+	__HAL_TIM_SET_COUNTER(&htim6, 0);
 }
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)

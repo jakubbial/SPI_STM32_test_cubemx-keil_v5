@@ -41,6 +41,8 @@ void MX_TIM6_Init(void);
 /* USER CODE BEGIN Prototypes */
 void Start_timer(void);
 void Stop_timer(void);
+uint32_t Get_Timer_val(void);
+void Reset_timer(void);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

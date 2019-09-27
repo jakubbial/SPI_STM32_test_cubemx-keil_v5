@@ -107,7 +107,7 @@ int main(void)
 	Fulfill_list();
 
 	
-	uint32_t *timer7_register = (uint32_t*)malloc(4);
+	uintptr_t *timer7_register = (uintptr_t*)malloc(4);
 	*timer7_register = 0x40001024;
 	uint32_t timer_val;
 	
@@ -158,10 +158,12 @@ int main(void)
 				Change_Item_Value(0, i);
 			
 				Start_timer();
-				HAL_Delay(500);
+				HAL_Delay(50);
 				Stop_timer();
-				timer_val = *timer7_register;
+				timer_val = Get_Timer_val();
 				Change_Item_Value(4, timer_val);
+				Reset_timer();
+				*timer7_register = 0;
 				break;
 		}
 		j++;
