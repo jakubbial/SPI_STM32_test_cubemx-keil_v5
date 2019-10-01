@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : gpio.h
-  * Description        : This file contains all the functions prototypes for 
-  *                      the gpio  
+  * File Name          : TIM.h
+  * Description        : This file provides code for the configuration
+  *                      of the TIM instances.
   ******************************************************************************
   * @attention
   *
@@ -16,10 +16,9 @@
   *
   ******************************************************************************
   */
-
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __gpio_H
-#define __gpio_H
+#ifndef __tim_H
+#define __tim_H
 #ifdef __cplusplus
  extern "C" {
 #endif
@@ -31,25 +30,27 @@
 
 /* USER CODE END Includes */
 
+extern TIM_HandleTypeDef htim6;
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
-void MX_GPIO_Init(void);
+void MX_TIM6_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
-void DC_Pin(uint8_t State);
-void CS_Pin(uint8_t State);
-void RESX_Pin(uint8_t State);
-void Toggle_Led(void);
+void Start_Timer6(void);
+void Stop_Timer6(void);
+uint16_t Get_Timer6_Value(void);
+void Reset_Timer6_Counter(void);
+void Set_Reload_Value(uint16_t Reload_Value);
 
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
 }
 #endif
-#endif /*__ pinoutConfig_H */
+#endif /*__ tim_H */
 
 /**
   * @}

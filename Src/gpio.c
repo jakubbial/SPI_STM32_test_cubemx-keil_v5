@@ -50,8 +50,8 @@ void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : PtPin */
   GPIO_InitStruct.Pin = Button_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(Button_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PCPin PCPin PCPin */
@@ -110,6 +110,11 @@ void RESX_Pin(uint8_t State)
 	{
 		HAL_GPIO_WritePin(SPI2_RESX_GPIO_Port, SPI2_RESX_Pin, GPIO_PIN_RESET);
 	}
+}
+
+void Toggle_Led(void)
+{
+	HAL_GPIO_TogglePin(GPIOB, LED_Green_Pin);
 }
 
 /* USER CODE END 2 */
