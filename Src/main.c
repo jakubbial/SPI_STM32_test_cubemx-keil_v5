@@ -112,6 +112,8 @@ int main(void)
 	uint32_t timer_val;
 	uint8_t timer_flag = 0;
 	
+	uint16_t on_cnt = 0;
+	uint16_t off_cnt = 0;	
 
 		
 	Change_Item_Name(0, "Butt");	
@@ -137,18 +139,17 @@ int main(void)
   {
 		Item = Dequeue_element(Koleja);
 		
-		Change_Item_Value(10, Koleja->Space_left);
+		//Change_Item_Value(10, Koleja->Space_left);
 		
 		//HAL_Delay(500);
 		
 		switch(Item)
 		{
 			case 0:
-				time = Get_current_time();
+				//time = Get_current_time();
 				//Change_Item_Value(7, j);
-				Change_Item_Value(1, time.Hours);
-				Change_Item_Value(2, time.Minutes);
-				Change_Item_Value(3, time.Seconds);
+				//Change_Item_Value(1, time.Hours);
+				//Change_Item_Value(2, time.Minutes);
 				break;
 			case 1:
 				break;
@@ -166,15 +167,21 @@ int main(void)
 				{
 					Start_timer();
 					timer_flag = 1;
+					on_cnt++;
 				} 
 				else if (timer_flag == 1)
 				{
 					Stop_timer();
 					timer_val = Get_Timer_val();
-					Change_Item_Value(4, timer_val);
 					Reset_timer();
+					Change_Item_Value(4, timer_val);
+					timer_val = Get_Timer_val();
+					Change_Item_Value(7, timer_val);
 					timer_flag = 0;
+					off_cnt++;
 				}
+				Change_Item_Value(5, on_cnt);
+				Change_Item_Value(6, off_cnt);
 				break;
 		}
 		j++;
@@ -243,7 +250,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	}
 	if(GPIO_Pin == Timer_trigger_Pin)
 	{
-		Toggle_Led();
 		Add_element(Koleja, 4);
 	}
 }

@@ -62,5 +62,7 @@ void LCD_DisplayNum(uint8_t Xpoint, uint8_t  Ypoint, int32_t Nummber, sFONT* Fon
 void LCD_Features_Selftest(void);
 void Display_Number(struct Item_Params Params_Set, uint32_t Number, uint8_t Item);
 void LCD_Create_Item(struct Item_Params Params_Set, const char* Text, uint32_t Number, uint8_t Item);
+void Display_String(struct Item_Params Params_Set, const char* Text, uint8_t Item);
+
 
 

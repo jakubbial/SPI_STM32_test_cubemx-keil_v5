@@ -499,6 +499,7 @@ void Display_Number(struct Item_Params Params_Set, uint32_t Number, uint8_t Item
 	uint8_t Number_of_chars = (Params_Set_Init.Number_of_pixels_X / Params_Set.Used_Font.Width)-7;	
 	uint8_t X_Nr_Index = (Number_of_chars*Params_Set.Used_Font.Width)+Params_Set.Used_Font.Width;
 	uint8_t Y_Index = Generate_Item_Index(Params_Set, Item);
+	LCD_DisplayString(X_Nr_Index, Y_Index, "    ", &Params_Set.Used_Font, Params_Set.Background_Color, Params_Set.Font_Color);
 	LCD_DisplayNum(X_Nr_Index, Y_Index, Number, &Params_Set.Used_Font, Params_Set.Background_Color, Params_Set.Font_Color);
 }
 
