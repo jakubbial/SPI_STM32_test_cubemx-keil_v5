@@ -21,6 +21,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "spi.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -95,6 +96,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   MX_SPI2_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
 	LCD_Init();
 	Fill_display(BLACK);
@@ -107,6 +109,9 @@ int main(void)
 	Koleja = Initialize_queue(10);
 	uint8_t Item;
 	uint8_t i =0;
+	
+	// Zmienne do obslugi buttona
+	uint8_t Button_Flag = 0;
 	
   /* USER CODE END 2 */
 
@@ -131,6 +136,16 @@ int main(void)
 			case 3:
 				i++;
 				Change_Item_Value(1, i);
+				if(Button_Flag == 0)
+				{
+					Button_Flag = 1;	
+					Toggle_Led();					
+				}else if (Button_Flag == 1)
+				{
+					Button_Flag = 0;
+					Toggle_Led();
+				}
+			
 				break;
 		}
 
