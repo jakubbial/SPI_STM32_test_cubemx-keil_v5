@@ -50,6 +50,7 @@ void LCD_Create_Item_Using_Struct(struct Item Item, uint8_t Item_Position)
 
 void Update_Item_Value_Using_Struct(struct Item Item, uint8_t Item_Position)
 {
+	Clear_Number(Regular_Item, Item_Position);
 	Display_Number(Regular_Item, Item.Value, Item_Position);
 }
 
