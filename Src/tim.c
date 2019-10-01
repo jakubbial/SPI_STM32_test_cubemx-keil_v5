@@ -82,7 +82,30 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 } 
 
 /* USER CODE BEGIN 1 */
+void Start_Timer6()
+{
+	HAL_TIM_Base_Start(&htim6);
+}
 
+void Stop_Timer6(void)
+{
+	HAL_TIM_Base_Stop(&htim6);
+}
+
+uint16_t Get_Timer6_Value(void)
+{
+	return __HAL_TIM_GetCounter(&htim6);
+}
+
+void Reset_Timer6_Counter(void)
+{
+	__HAL_TIM_SetCounter(&htim6, 0);
+}
+
+void Set_Reload_Value(uint16_t Reload_Value)
+{
+	__HAL_TIM_SetAutoreload(&htim6, Reload_Value); 
+}
 /* USER CODE END 1 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

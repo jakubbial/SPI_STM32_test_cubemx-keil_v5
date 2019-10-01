@@ -39,6 +39,11 @@ extern TIM_HandleTypeDef htim6;
 void MX_TIM6_Init(void);
 
 /* USER CODE BEGIN Prototypes */
+void Start_Timer6(void);
+void Stop_Timer6(void);
+uint16_t Get_Timer6_Value(void);
+void Reset_Timer6_Counter(void);
+void Set_Reload_Value(uint16_t Reload_Value);
 
 /* USER CODE END Prototypes */
 

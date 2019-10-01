@@ -113,6 +113,10 @@ int main(void)
 	// Zmienne do obslugi buttona
 	uint8_t Button_Flag = 0;
 	
+	// TIMER6
+	uint16_t Timer6_Counter = 0;
+	Set_Reload_Value(60000);
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -130,22 +134,28 @@ int main(void)
 			case 0:
 				break;
 			case 1:
-				break;
-			case 2:
-				break;
-			case 3:
 				i++;
 				Change_Item_Value(1, i);
 				if(Button_Flag == 0)
 				{
 					Button_Flag = 1;	
-					Toggle_Led();					
+					Toggle_Led();
+					Start_Timer6();
 				}else if (Button_Flag == 1)
 				{
 					Button_Flag = 0;
 					Toggle_Led();
+					Stop_Timer6();
+					Add_element(Koleja, 2);
 				}
-			
+				break;
+			case 2:
+				Timer6_Counter = Get_Timer6_Value();
+				Change_Item_Value(2, 0);	
+				Change_Item_Value(2, Timer6_Counter);	
+				Reset_Timer6_Counter();
+				break;
+			case 3:
 				break;
 		}
 
@@ -201,7 +211,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 	if(GPIO_Pin == Button_Pin)
 	{
-		Add_element(Koleja, 3);
+		Add_element(Koleja, 1);
 	}
 }
 
