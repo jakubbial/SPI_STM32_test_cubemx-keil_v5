@@ -125,7 +125,7 @@ int main(void)
   {
 		Item = Dequeue_element(Koleja);
 		
-		Change_Item_Value(10, Koleja->Space_left);
+		//Change_Item_Value(10, Koleja->Space_left);
 		
 		//HAL_Delay(500);
 		
