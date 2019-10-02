@@ -117,6 +117,17 @@ void Toggle_Led(void)
 	HAL_GPIO_TogglePin(GPIOB, LED_Green_Pin);
 }
 
+void On_Off_Blue_Led(uint8_t State)
+{
+	if(State == 1)
+	{
+		HAL_GPIO_WritePin(GPIOB, LED_Blue_Pin, GPIO_PIN_SET);
+	}else if (State == 0)
+	{
+		HAL_GPIO_WritePin(GPIOB, LED_Blue_Pin, GPIO_PIN_RESET);
+	}
+}
+
 /* USER CODE END 2 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -116,6 +116,10 @@ int main(void)
 	// TIMER6
 	uint16_t Timer6_Counter = 0;
 	Set_Reload_Value(60000);
+	// dlugosc pulsu
+	uint16_t Pulse_width = 500;
+	uint16_t Timer_Val = 0;
+	
 	
   /* USER CODE END 2 */
 
@@ -154,8 +158,22 @@ int main(void)
 				Change_Item_Value(2, 0);	
 				Change_Item_Value(2, Timer6_Counter);	
 				Reset_Timer6_Counter();
+				Add_element(Koleja, 3);
 				break;
 			case 3:
+				Start_Timer6();
+				On_Off_Blue_Led(1);
+				Add_element(Koleja, 4);
+				break;
+			case 4:
+				Timer_Val = Get_Timer6_Value();
+				if(Timer_Val >= Pulse_width)
+				{
+					On_Off_Blue_Led(0);
+				}else if(Timer_Val < Pulse_width)
+				{
+					Add_element(Koleja, 4);
+				}
 				break;
 		}
 
