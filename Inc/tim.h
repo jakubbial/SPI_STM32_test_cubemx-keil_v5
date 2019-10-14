@@ -31,13 +31,17 @@
 /* USER CODE END Includes */
 
 extern TIM_HandleTypeDef htim6;
+extern TIM_HandleTypeDef htim9;
 
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
 void MX_TIM6_Init(void);
-
+void MX_TIM9_Init(void);
+                        
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+                    
 /* USER CODE BEGIN Prototypes */
 void Start_Timer6(void);
 void Stop_Timer6(void);
